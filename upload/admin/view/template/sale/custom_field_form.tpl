@@ -175,13 +175,13 @@
 </div>
 <script type="text/javascript"><!--
 $('select[name=\'type\']').bind('change', function() {
-	if (this.value == 'select' || this.value == 'radio' || this.value == 'checkbox') {
-		$('#custom-field-value').show();
-		$('#display-value').hide();
-	} else {
-		$('#custom-field-value').hide();
-		$('#display-value').show();
-	}
+    if (this.value == 'select' || this.value == 'radio' || this.value == 'checkbox') {
+        $('#custom-field-value').show();
+        $('#display-value').hide();
+    } else {
+        $('#custom-field-value').hide();
+        $('#display-value').show();
+    }
 });
 
 $('select[name=\'type\']').trigger('change');
@@ -189,21 +189,21 @@ $('select[name=\'type\']').trigger('change');
 var custom_field_value_row = <?php echo $custom_field_value_row; ?>;
 
 function addCustomFieldValue() {
-	html  = '<tbody id="custom-field-value-row' + custom_field_value_row + '">';
-	html += '  <tr>';	
+    html  = '<tbody id="custom-field-value-row' + custom_field_value_row + '">';
+    html += '  <tr>';    
     html += '    <td class="left"><input type="hidden" name="custom_field_value[' + custom_field_value_row + '][custom_field_value_id]" value="" />';
-	<?php foreach ($languages as $language) { ?>
-	html += '<input type="text" name="custom_field_value[' + custom_field_value_row + '][custom_field_value_description][<?php echo $language['language_id']; ?>][name]" value="" /> <img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />';
+    <?php foreach ($languages as $language) { ?>
+    html += '<input type="text" name="custom_field_value[' + custom_field_value_row + '][custom_field_value_description][<?php echo $language['language_id']; ?>][name]" value="" /> <img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />';
     <?php } ?>
-	html += '    </td>';
-	html += '    <td class="right"><input type="text" name="custom_field_value[' + custom_field_value_row + '][sort_order]" value="" size="1" /></td>';
-	html += '    <td class="left"><a onclick="$(\'#custom-field-value-row' + custom_field_value_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
-	html += '  </tr>';	
+    html += '    </td>';
+    html += '    <td class="right"><input type="text" name="custom_field_value[' + custom_field_value_row + '][sort_order]" value="" size="1" /></td>';
+    html += '    <td class="left"><a onclick="$(\'#custom-field-value-row' + custom_field_value_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
+    html += '  </tr>';    
     html += '</tbody>';
-	
-	$('#custom-field-value tfoot').before(html);
-	
-	custom_field_value_row++;
+    
+    $('#custom-field-value tfoot').before(html);
+    
+    custom_field_value_row++;
 }
 //--></script> 
 <?php echo $footer; ?>

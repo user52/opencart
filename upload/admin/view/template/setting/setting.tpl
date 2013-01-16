@@ -1009,73 +1009,73 @@ $('#template').load('index.php?route=setting/setting/template&token=<?php echo $
 //--></script> 
 <script type="text/javascript"><!--
 $('select[name=\'config_country_id\']').bind('change', function() {
-	$.ajax({
-		url: 'index.php?route=setting/setting/country&token=<?php echo $token; ?>&country_id=' + this.value,
-		dataType: 'json',
-		beforeSend: function() {
-			$('select[name=\'country_id\']').after('<span class="wait">&nbsp;<img src="view/image/loading.gif" alt="" /></span>');
-		},		
-		complete: function() {
-			$('.wait').remove();
-		},			
-		success: function(json) {
-			if (json['postcode_required'] == '1') {
-				$('#postcode-required').show();
-			} else {
-				$('#postcode-required').hide();
-			}
-			
-			html = '<option value=""><?php echo $text_select; ?></option>';
-			
-			if (json['zone'] != '') {
-				for (i = 0; i < json['zone'].length; i++) {
-        			html += '<option value="' + json['zone'][i]['zone_id'] + '"';
-	    			
-					if (json['zone'][i]['zone_id'] == '<?php echo $config_zone_id; ?>') {
-	      				html += ' selected="selected"';
-	    			}
-	
-	    			html += '>' + json['zone'][i]['name'] + '</option>';
-				}
-			} else {
-				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
-			}
-			
-			$('select[name=\'config_zone_id\']').html(html);
-		},
-		error: function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-		}
-	});
+    $.ajax({
+        url: 'index.php?route=setting/setting/country&token=<?php echo $token; ?>&country_id=' + this.value,
+        dataType: 'json',
+        beforeSend: function() {
+            $('select[name=\'country_id\']').after('<span class="wait">&nbsp;<img src="view/image/loading.gif" alt="" /></span>');
+        },        
+        complete: function() {
+            $('.wait').remove();
+        },            
+        success: function(json) {
+            if (json['postcode_required'] == '1') {
+                $('#postcode-required').show();
+            } else {
+                $('#postcode-required').hide();
+            }
+            
+            html = '<option value=""><?php echo $text_select; ?></option>';
+            
+            if (json['zone'] != '') {
+                for (i = 0; i < json['zone'].length; i++) {
+                    html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+                    
+                    if (json['zone'][i]['zone_id'] == '<?php echo $config_zone_id; ?>') {
+                          html += ' selected="selected"';
+                    }
+    
+                    html += '>' + json['zone'][i]['name'] + '</option>';
+                }
+            } else {
+                html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+            }
+            
+            $('select[name=\'config_zone_id\']').html(html);
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
 });
 
 $('select[name=\'config_country_id\']').trigger('change');
 //--></script> 
 <script type="text/javascript"><!--
 function image_upload(field, thumb) {
-	$('#dialog').remove();
-	
-	$('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="index.php?route=common/filemanager&token=<?php echo $token; ?>&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
-	
-	$('#dialog').dialog({
-		title: '<?php echo $text_image_manager; ?>',
-		close: function (event, ui) {
-			if ($('#' + field).attr('value')) {
-				$.ajax({
-					url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).val()),
-					dataType: 'text',
-					success: function(data) {
-						$('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
-					}
-				});
-			}
-		},	
-		bgiframe: false,
-		width: 800,
-		height: 400,
-		resizable: false,
-		modal: false
-	});
+    $('#dialog').remove();
+    
+    $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="index.php?route=common/filemanager&token=<?php echo $token; ?>&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+    
+    $('#dialog').dialog({
+        title: '<?php echo $text_image_manager; ?>',
+        close: function (event, ui) {
+            if ($('#' + field).attr('value')) {
+                $.ajax({
+                    url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).val()),
+                    dataType: 'text',
+                    success: function(data) {
+                        $('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
+                    }
+                });
+            }
+        },    
+        bgiframe: false,
+        width: 800,
+        height: 400,
+        resizable: false,
+        modal: false
+    });
 };
 //--></script> 
 <script type="text/javascript"><!--

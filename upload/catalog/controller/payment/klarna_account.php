@@ -1,84 +1,84 @@
 <?php
 class ControllerPaymentKlarnaAccount extends Controller {
     protected function index() {
-		$this->language->load('payment/klarna_account');
+        $this->language->load('payment/klarna_account');
        
-	   	$this->data['text_information'] = $this->language->get('text_information');
-		$this->data['text_additional'] = $this->language->get('text_additional');
-		$this->data['text_payment_option'] = $this->language->get('text_payment_option');	
-		$this->data['text_wait'] = $this->language->get('text_wait');
-		$this->data['text_day'] = $this->language->get('text_day');	
-		$this->data['text_month'] = $this->language->get('text_month');	
-		$this->data['text_year'] = $this->language->get('text_year');	
-		$this->data['text_male'] = $this->language->get('text_male');	
-		$this->data['text_female'] = $this->language->get('text_female');		
-				
-		$this->data['entry_birthday'] = $this->language->get('entry_birthday');	
-		$this->data['entry_gender'] = $this->language->get('entry_gender');	
-		$this->data['entry_street'] = $this->language->get('entry_street');	
-		$this->data['entry_house_no'] = $this->language->get('entry_house_no');	
-		$this->data['entry_phone_no'] = $this->language->get('entry_phone_no');	
-		
-		$this->data['button_confirm'] = $this->language->get('button_confirm');
-		
-		$this->data['days'] = array();
-		
-		for ($i = 1; $i <= 31; $i++) {
-			$this->data['days'][] = array(
-				'text'  => sprintf('%02d', $i), 
-				'value' => $i
-			);
-		}
-				
-		$this->data['months'] = array();
-		
-		for ($i = 1; $i <= 12; $i++) {
-			$this->data['months'][] = array(
-				'text'  => sprintf('%02d', $i), 
-				'value' => $i
-			);
-		}			
-			
-		$this->data['years'] = array();
+           $this->data['text_information'] = $this->language->get('text_information');
+        $this->data['text_additional'] = $this->language->get('text_additional');
+        $this->data['text_payment_option'] = $this->language->get('text_payment_option');    
+        $this->data['text_wait'] = $this->language->get('text_wait');
+        $this->data['text_day'] = $this->language->get('text_day');    
+        $this->data['text_month'] = $this->language->get('text_month');    
+        $this->data['text_year'] = $this->language->get('text_year');    
+        $this->data['text_male'] = $this->language->get('text_male');    
+        $this->data['text_female'] = $this->language->get('text_female');        
+                
+        $this->data['entry_birthday'] = $this->language->get('entry_birthday');    
+        $this->data['entry_gender'] = $this->language->get('entry_gender');    
+        $this->data['entry_street'] = $this->language->get('entry_street');    
+        $this->data['entry_house_no'] = $this->language->get('entry_house_no');    
+        $this->data['entry_phone_no'] = $this->language->get('entry_phone_no');    
+        
+        $this->data['button_confirm'] = $this->language->get('button_confirm');
+        
+        $this->data['days'] = array();
+        
+        for ($i = 1; $i <= 31; $i++) {
+            $this->data['days'][] = array(
+                'text'  => sprintf('%02d', $i), 
+                'value' => $i
+            );
+        }
+                
+        $this->data['months'] = array();
+        
+        for ($i = 1; $i <= 12; $i++) {
+            $this->data['months'][] = array(
+                'text'  => sprintf('%02d', $i), 
+                'value' => $i
+            );
+        }            
+            
+        $this->data['years'] = array();
 
-		for ($i = date('Y'); $i >= 1900; $i--) {
-			$this->data['years'][] = array(
-				'text'  => $i,
-				'value' => $i
-			);
-		}			
-			
-		$this->load->model('checkout/order');
+        for ($i = date('Y'); $i >= 1900; $i--) {
+            $this->data['years'][] = array(
+                'text'  => $i,
+                'value' => $i
+            );
+        }            
+            
+        $this->load->model('checkout/order');
                 
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-		
-		if ($order_info) {
-			// Store Taxes to send to Klarna
-			$total_data = array();
-			$total = 0;
-			$taxes = $this->cart->getTaxes();
-			 
-			$this->load->model('setting/extension');
-			
-			$sort_order = array(); 
-			
-			$results = $this->model_setting_extension->getExtensions('total');
-			
-			foreach ($results as $key => $value) {
-				$sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
-			}
-			
-			array_multisort($sort_order, SORT_ASC, $results);
-						
-			$oldTaxes = $taxes;
+        
+        if ($order_info) {
+            // Store Taxes to send to Klarna
+            $total_data = array();
+            $total = 0;
+            $taxes = $this->cart->getTaxes();
+             
+            $this->load->model('setting/extension');
+            
+            $sort_order = array(); 
+            
+            $results = $this->model_setting_extension->getExtensions('total');
+            
+            foreach ($results as $key => $value) {
+                $sort_order[$key] = $this->config->get($value['code'] . '_sort_order');
+            }
+            
+            array_multisort($sort_order, SORT_ASC, $results);
+                        
+            $oldTaxes = $taxes;
             $klarnaTax = array();
             
-			foreach ($results as $result) {
-				if ($this->config->get($result['code'] . '_status')) {
+            foreach ($results as $result) {
+                if ($this->config->get($result['code'] . '_status')) {
                     
-					$this->load->model('total/' . $result['code']);
-		
-					$this->{'model_total_' . $result['code']}->getTotal($total_data, $total, $taxes);
+                    $this->load->model('total/' . $result['code']);
+        
+                    $this->{'model_total_' . $result['code']}->getTotal($total_data, $total, $taxes);
                     
                     $taxDifference = 0;
                     
@@ -95,479 +95,479 @@ class ControllerPaymentKlarnaAccount extends Controller {
                     }
                     
                     $oldTaxes = $taxes;
-				}
-			}
-			
-			$sort_order = array(); 
-		  
-			foreach ($total_data as $key => $value) {
-				$sort_order[$key] = $value['sort_order'];
+                }
+            }
+            
+            $sort_order = array(); 
+          
+            foreach ($total_data as $key => $value) {
+                $sort_order[$key] = $value['sort_order'];
                 
                 if (isset($klarnaTax[$value['code']])) {
                     $total_data[$key]['klarna_tax'] = $klarnaTax[$value['code']];
                 } else {
                     $total_data[$key]['klarna_tax'] = '';
                 }
-			}
-			
-			
-				
-			
-			// Order must have identical shipping and billing address or have no shipping address at all
-			if ($order_info['payment_firstname'] == $order_info['shipping_firstname'] && $order_info['payment_lastname'] == $order_info['shipping_lastname'] && $order_info['payment_address_1'] == $order_info['shipping_address_1'] && $order_info['payment_address_2'] == $order_info['shipping_address_2'] && $order_info['payment_postcode'] == $order_info['shipping_postcode'] && $order_info['payment_city'] == $order_info['shipping_city'] && $order_info['payment_zone_id'] == $order_info['shipping_zone_id'] && $order_info['payment_zone_code'] == $order_info['shipping_zone_code'] && $order_info['payment_country_id'] == $order_info['shipping_country_id'] && $order_info['payment_country'] == $order_info['shipping_country'] && $order_info['payment_iso_code_3'] == $order_info['shipping_iso_code_3']) {
-				$this->data['error_warning'] = $this->language->get('error_address_match');
-			} else {
-				$this->data['error_warning'] = '';
-			}
-			
-			// The title stored in the DB gets truncated which causes order_info.tpl to not be displayed properly
-			$this->db->query("UPDATE `" . DB_PREFIX . "order` SET `payment_method` = '" . $this->db->escape($this->language->get('text_title')) . "' WHERE `order_id` = " . (int) $this->session->data['order_id']);
-			
-			$klarna_account = $this->config->get('klarna_account');
-			
-			$this->data['merchant'] = $klarna_account[$order_info['payment_iso_code_3']]['merchant'];
-			$this->data['phone_number'] = $order_info['telephone'];
-			
-			$country_to_currency = array(
-				'NOR' => 'NOK',
-				'SWE' => 'SEK',
-				'FIN' => 'EUR',
-				'DNK' => 'DKK',
-				'DEU' => 'EUR',
-				'NLD' => 'EUR',
-			);
-					
-			preg_match('/^(.+) *(\d+[a-z]?)$/', $order_info['payment_address_1'], $match);
-			
-			print_r($match);
-			
-			if (isset($match[0])) {
-				$this->data['street'] = $match[0];
-			} else {
-				$this->data['street'] = '';
-			}
-			
-			if (isset($match[1])) {
-				$this->data['street_number'] = $match[1];
-			} else {
-				$this->data['street_number'] = '';
-			}
-			
-			if (isset($match[2])) {
-				$this->data['street_extension'] = $match[2];
-			} else {
-				$this->data['street_extension'] = '';
-			}
-			
-			if (isset($match[1]) && isset($match[2]) && $order_info['payment_iso_code_3'] == 'DEU') {
-				$this->data['street_number'] = trim($match[1] . ' ' . $match[2]);
-			}
-			
-			$this->data['company'] = $order_info['payment_company'];
-			$this->data['company_id'] = $order_info['payment_company_id'];
-			$this->data['iso_code_3'] = $order_info['payment_iso_code_3'];
-			$this->data['iso_code_2'] = $order_info['payment_iso_code_2'];
-			
-			$payment_option = array();
+            }
+            
+            
+                
+            
+            // Order must have identical shipping and billing address or have no shipping address at all
+            if ($order_info['payment_firstname'] == $order_info['shipping_firstname'] && $order_info['payment_lastname'] == $order_info['shipping_lastname'] && $order_info['payment_address_1'] == $order_info['shipping_address_1'] && $order_info['payment_address_2'] == $order_info['shipping_address_2'] && $order_info['payment_postcode'] == $order_info['shipping_postcode'] && $order_info['payment_city'] == $order_info['shipping_city'] && $order_info['payment_zone_id'] == $order_info['shipping_zone_id'] && $order_info['payment_zone_code'] == $order_info['shipping_zone_code'] && $order_info['payment_country_id'] == $order_info['shipping_country_id'] && $order_info['payment_country'] == $order_info['shipping_country'] && $order_info['payment_iso_code_3'] == $order_info['shipping_iso_code_3']) {
+                $this->data['error_warning'] = $this->language->get('error_address_match');
+            } else {
+                $this->data['error_warning'] = '';
+            }
+            
+            // The title stored in the DB gets truncated which causes order_info.tpl to not be displayed properly
+            $this->db->query("UPDATE `" . DB_PREFIX . "order` SET `payment_method` = '" . $this->db->escape($this->language->get('text_title')) . "' WHERE `order_id` = " . (int) $this->session->data['order_id']);
+            
+            $klarna_account = $this->config->get('klarna_account');
+            
+            $this->data['merchant'] = $klarna_account[$order_info['payment_iso_code_3']]['merchant'];
+            $this->data['phone_number'] = $order_info['telephone'];
+            
+            $country_to_currency = array(
+                'NOR' => 'NOK',
+                'SWE' => 'SEK',
+                'FIN' => 'EUR',
+                'DNK' => 'DKK',
+                'DEU' => 'EUR',
+                'NLD' => 'EUR',
+            );
+                    
+            preg_match('/^(.+) *(\d+[a-z]?)$/', $order_info['payment_address_1'], $match);
+            
+            print_r($match);
+            
+            if (isset($match[0])) {
+                $this->data['street'] = $match[0];
+            } else {
+                $this->data['street'] = '';
+            }
+            
+            if (isset($match[1])) {
+                $this->data['street_number'] = $match[1];
+            } else {
+                $this->data['street_number'] = '';
+            }
+            
+            if (isset($match[2])) {
+                $this->data['street_extension'] = $match[2];
+            } else {
+                $this->data['street_extension'] = '';
+            }
+            
+            if (isset($match[1]) && isset($match[2]) && $order_info['payment_iso_code_3'] == 'DEU') {
+                $this->data['street_number'] = trim($match[1] . ' ' . $match[2]);
+            }
+            
+            $this->data['company'] = $order_info['payment_company'];
+            $this->data['company_id'] = $order_info['payment_company_id'];
+            $this->data['iso_code_3'] = $order_info['payment_iso_code_3'];
+            $this->data['iso_code_2'] = $order_info['payment_iso_code_2'];
+            
+            $payment_option = array();
 
-			$total = $this->currency->format($order_info['total'], $country_to_currency[$order_info['payment_iso_code_3']], '', false);
+            $total = $this->currency->format($order_info['total'], $country_to_currency[$order_info['payment_iso_code_3']], '', false);
 
-			$pclasses = $this->config->get('klarna_account_pclasses');
-			
-			if (isset($pclasses[$order_info['payment_iso_code_3']])) {
-				$pclasses = $pclasses[$order_info['payment_iso_code_3']];
-			} else {
-				$pclasses = array();
-			}
+            $pclasses = $this->config->get('klarna_account_pclasses');
+            
+            if (isset($pclasses[$order_info['payment_iso_code_3']])) {
+                $pclasses = $pclasses[$order_info['payment_iso_code_3']];
+            } else {
+                $pclasses = array();
+            }
 
-			foreach ($pclasses as $pclass) {                
-				// 0 - Campaign
-				// 1 - Account
-				// 2 - Special
-				// 3 - Fixed
-				if (!in_array($pclass['type'], array(0, 1, 3))) {
-					continue;
-				}
+            foreach ($pclasses as $pclass) {                
+                // 0 - Campaign
+                // 1 - Account
+                // 2 - Special
+                // 3 - Fixed
+                if (!in_array($pclass['type'], array(0, 1, 3))) {
+                    continue;
+                }
 
-				if ($pclass['type'] == 2) {
-					$monthly_cost = -1;
-				} else {
-					if ($total < $pclass['minamount']) {
-						continue;
-					}
+                if ($pclass['type'] == 2) {
+                    $monthly_cost = -1;
+                } else {
+                    if ($total < $pclass['minamount']) {
+                        continue;
+                    }
 
-					if ($pclass['type'] == 3) {
-						continue;
-					} else {
-						$sum = $total;
+                    if ($pclass['type'] == 3) {
+                        continue;
+                    } else {
+                        $sum = $total;
 
-						$lowest_payment = $this->getLowestPaymentAccount($order_info['payment_iso_code_3']);
-						$monthly_cost = 0;
+                        $lowest_payment = $this->getLowestPaymentAccount($order_info['payment_iso_code_3']);
+                        $monthly_cost = 0;
 
-						$monthly_fee = $pclass['invoicefee'];
-						$start_fee = $pclass['startfee'];
+                        $monthly_fee = $pclass['invoicefee'];
+                        $start_fee = $pclass['startfee'];
 
-						$sum += $start_fee;
+                        $sum += $start_fee;
 
-						$base = ($pclass['type'] == 1);
+                        $base = ($pclass['type'] == 1);
 
-						$minimum_payment = ($pclass['type'] === 1) ? $this->getLowestPaymentAccount($order_info['payment_iso_code_3']) : 0;
+                        $minimum_payment = ($pclass['type'] === 1) ? $this->getLowestPaymentAccount($order_info['payment_iso_code_3']) : 0;
 
-						if ($pclass['months'] == 0) {
-							$payment = $sum;
-						} elseif ($pclass['interestrate'] == 0) {
-							$payment = $sum / $pclass['months'];
-						} else {
-							$interest = $pclass['interestrate'] / (100.0 * 12);
-							$payment = $sum * $interest / (1 - pow((1 + $interest), -$pclass['months']));
-						}
+                        if ($pclass['months'] == 0) {
+                            $payment = $sum;
+                        } elseif ($pclass['interestrate'] == 0) {
+                            $payment = $sum / $pclass['months'];
+                        } else {
+                            $interest = $pclass['interestrate'] / (100.0 * 12);
+                            $payment = $sum * $interest / (1 - pow((1 + $interest), -$pclass['months']));
+                        }
 
-						$payment += $monthly_fee;
+                        $payment += $monthly_fee;
 
-						$balance = $sum;
-						$pay_data = array();
+                        $balance = $sum;
+                        $pay_data = array();
 
-						$months = $pclass['months'];
-						
-						while (($months != 0) && ($balance > 0.01)) {
-							$interest = $balance * $pclass['interestrate'] / (100.0 * 12);
-							$new_balance = $balance + $interest + $monthly_fee;
+                        $months = $pclass['months'];
+                        
+                        while (($months != 0) && ($balance > 0.01)) {
+                            $interest = $balance * $pclass['interestrate'] / (100.0 * 12);
+                            $new_balance = $balance + $interest + $monthly_fee;
 
-							if ($minimum_payment >= $new_balance || $payment >= $new_balance) {
-								$pay_data[] = $new_balance;
-								break;
-							}
+                            if ($minimum_payment >= $new_balance || $payment >= $new_balance) {
+                                $pay_data[] = $new_balance;
+                                break;
+                            }
 
-							$new_payment = max($payment, $minimum_payment);
-							
-							if ($base) {
-								$new_payment = max($new_payment, $balance / 24.0 + $monthly_fee + $interest);
-							}
+                            $new_payment = max($payment, $minimum_payment);
+                            
+                            if ($base) {
+                                $new_payment = max($new_payment, $balance / 24.0 + $monthly_fee + $interest);
+                            }
 
-							$balance = $new_balance - $new_payment;
-							
-							$pay_data[] = $new_payment;
-								   
-							$months -= 1;
-						}
+                            $balance = $new_balance - $new_payment;
+                            
+                            $pay_data[] = $new_payment;
+                                   
+                            $months -= 1;
+                        }
 
-						$monthly_cost = round(isset($pay_data[0]) ? ($pay_data[0]) : 0, 2);
+                        $monthly_cost = round(isset($pay_data[0]) ? ($pay_data[0]) : 0, 2);
 
-						if ($monthly_cost < 0.01) {
-							continue;
-						}
+                        if ($monthly_cost < 0.01) {
+                            continue;
+                        }
 
-						if ($pclass['type'] == 1 && $monthly_cost < $lowest_payment) {
-							$monthly_cost = $lowest_payment;
-						}
+                        if ($pclass['type'] == 1 && $monthly_cost < $lowest_payment) {
+                            $monthly_cost = $lowest_payment;
+                        }
 
-						if ($pclass['type'] == 0 && $monthly_cost < $lowest_payment) {
-							continue;
-						}
-					}
-				}
-				
-				$payment_option[$pclass['id']]['pclass_id'] = $pclass['id'];
-				$payment_option[$pclass['id']]['title'] = $pclass['description'];
-				$payment_option[$pclass['id']]['months'] = $pclass['months'];
-				$payment_option[$pclass['id']]['monthly_cost'] = $monthly_cost;
-			}
-			
-			$sort_order = array(); 
-			  
-			foreach ($payment_option as $key => $value) {
-				$sort_order[$key] = $value['pclass_id'];
-			}
-		
-			array_multisort($sort_order, SORT_ASC, $payment_option);
-			
-			$this->data['payment_options'] = array();
-			
-			foreach ($payment_option as $payment_option) {
-				$this->data['payment_options'][] = array(
-					'code'  => $payment_option['pclass_id'],
-					'title' => sprintf($this->language->get('text_monthly_payment'), $payment_option['title'], $this->currency->format($this->currency->convert($payment_option['monthly_cost'], $country_to_currency[$order_info['payment_iso_code_3']], $this->currency->getCode()), 1, 1))
-				);
-			}
-			
-			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/klarna_account.tpl')) {
-				$this->template = $this->config->get('config_template') . '/template/payment/klarna_account.tpl';
-			} else {
-				$this->template = 'default/template/payment/klarna_account.tpl';
-			}
-	
-			$this->render();
-		}
+                        if ($pclass['type'] == 0 && $monthly_cost < $lowest_payment) {
+                            continue;
+                        }
+                    }
+                }
+                
+                $payment_option[$pclass['id']]['pclass_id'] = $pclass['id'];
+                $payment_option[$pclass['id']]['title'] = $pclass['description'];
+                $payment_option[$pclass['id']]['months'] = $pclass['months'];
+                $payment_option[$pclass['id']]['monthly_cost'] = $monthly_cost;
+            }
+            
+            $sort_order = array(); 
+              
+            foreach ($payment_option as $key => $value) {
+                $sort_order[$key] = $value['pclass_id'];
+            }
+        
+            array_multisort($sort_order, SORT_ASC, $payment_option);
+            
+            $this->data['payment_options'] = array();
+            
+            foreach ($payment_option as $payment_option) {
+                $this->data['payment_options'][] = array(
+                    'code'  => $payment_option['pclass_id'],
+                    'title' => sprintf($this->language->get('text_monthly_payment'), $payment_option['title'], $this->currency->format($this->currency->convert($payment_option['monthly_cost'], $country_to_currency[$order_info['payment_iso_code_3']], $this->currency->getCode()), 1, 1))
+                );
+            }
+            
+            if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/klarna_account.tpl')) {
+                $this->template = $this->config->get('config_template') . '/template/payment/klarna_account.tpl';
+            } else {
+                $this->template = 'default/template/payment/klarna_account.tpl';
+            }
+    
+            $this->render();
+        }
     }
 
     public function send() {
-		$this->language->load('payment/klarna_account');
-		
-		$json = array();
-		
+        $this->language->load('payment/klarna_account');
+        
+        $json = array();
+        
         $this->load->model('checkout/order');
 
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
         
-		// Order must have identical shipping and billing address or have no shipping address at all
-		if ($order_info && $order_info['payment_firstname'] == $order_info['shipping_firstname'] && $order_info['payment_lastname'] == $order_info['shipping_lastname'] && $order_info['payment_address_1'] == $order_info['shipping_address_1'] && $order_info['payment_address_2'] == $order_info['shipping_address_2'] && $order_info['payment_postcode'] == $order_info['shipping_postcode'] && $order_info['payment_city'] == $order_info['shipping_city'] && $order_info['payment_zone_id'] == $order_info['shipping_zone_id'] && $order_info['payment_zone_code'] == $order_info['shipping_zone_code'] && $order_info['payment_country_id'] == $order_info['shipping_country_id'] && $order_info['payment_country'] == $order_info['shipping_country'] && $order_info['payment_iso_code_3'] == $order_info['shipping_iso_code_3']) {
-			$klarna_account = $this->config->get('klarna_account');
-			
-			if ($klarna_account[$order_info['payment_iso_code_3']]['server'] == 'live') {
-				$url = 'https://payment.klarna.com/';
-			} else {
-				$url = 'https://payment-beta.klarna.com/';
-			}
-			
-			$country_to_currency = array(
-				'NOR' => 'NOK',
-				'SWE' => 'SEK',
-				'FIN' => 'EUR',
-				'DNK' => 'DKK',
-				'DEU' => 'EUR',
-				'NLD' => 'EUR',
-			);
-			
-			switch ($order_info['payment_iso_code_3']) {
-				// Sweden
-				case 'SWE':
-					$country = 209;
-					$language = 138;
-					$encoding = 2;
-					$currency = 0;
-					break;
-				// Finland
-				case 'FIN':
-					$country = 73;
-					$language = 37;
-					$encoding = 4;
-					$currency = 2;
-					break;
-				// Denmark
-				case 'DNK':
-					$country = 59;
-					$language = 27;
-					$encoding = 5;
-					$currency = 3;
-					break;
-				// Norway	
-				case 'NOR':
-					$country = 164;
-					$language = 97;
-					$encoding = 3;
-					$currency = 1;
-					break;
-				// Germany	
-				case 'DEU':
-					$country = 81;
-					$language = 28;
-					$encoding = 6;
-					$currency = 2;
-					break;
-				// Netherlands															
-				case 'NLD':
-					$country = 154;
-					$language = 101;
-					$encoding = 7;
-					$currency = 2;
-					break;
-			}
-			
-			if (isset($this->request->post['street'])) {
-				$street = $this->request->post['street'];
-			} else {
-				$street = $order_info['payment_address_1'];
-			}
-			
-			if (isset($this->request->post['house_no'])) {
-				$house_no = $this->request->post['house_no'];
-			} else {
-				$house_no = '';
-			}
-			
-			if (isset($this->request->post['house_ext'])) {
-				$house_ext = $this->request->post['house_ext'];
-			} else {
-				$house_ext = '';
-			}
-			
-			$address = array(
-				'email'           => $order_info['email'],
-				'telno'           => $this->request->post['phone_no'],
-				'cellno'          => '',
-				'fname'           => $order_info['payment_firstname'],
-				'lname'           => $order_info['payment_lastname'],
-				'company'         => $order_info['payment_company'],
-				'careof'          => '',
-				'street'          => $street,
-				'house_number'    => $house_no,
-				'house_extension' => $house_ext,
-				'zip'             => $order_info['payment_postcode'],
-				'city'            => $order_info['payment_city'],
-				'country'         => $country,
-			);
-			
-			$product_query = $this->db->query("SELECT `name`, `model`, `price`, `quantity`, `tax` / `price` * 100 AS 'tax_rate' FROM `" . DB_PREFIX . "order_product` WHERE `order_id` = " . (int) $order_info['order_id'] . " UNION ALL SELECT '', `code`, `amount`, '1', 0.00 FROM `" . DB_PREFIX . "order_voucher` WHERE `order_id` = " . (int) $order_info['order_id']);
-	
-			foreach ($product_query->rows as $product) {
-				$goods_list[] = array(
-					'qty'   => (int)$product['quantity'],
-					'goods' => array(
-						'artno'    => $product['model'],
-						'title'    => $product['name'],
-						'price'    => (int)str_replace('.', '', $this->currency->format($product['price'], $country_to_currency[$order_info['payment_iso_code_3']], '', false)),
-						'vat'      => (float)$product['tax_rate'],
-						'discount' => 0.0,
-						'flags'    => 0,
-					)
-				);
-			}
-			
-			$total_query = $this->db->query("
-				SELECT `title`, `code`, `value`, IF(`tax` IS NULL, 0.0, `tax` / `value` * 100) AS 'tax_rate'
-				FROM `" . DB_PREFIX . "order_total`
-				LEFT JOIN `" . DB_PREFIX . "order_total_klarna` USING(`order_total_id`)
-				WHERE `order_id` = " . (int) $order_info['order_id'] . " AND `code` NOT IN ('sub_total', 'tax', 'total')");
-			
-			foreach ($total_query->rows as $total) {
-				$goods_list[] = array(
-					'qty'   => 1,
-					'goods' => array(
-						'artno'    => '',
-						'title'    => $total['title'],
-						'price'    => (int)str_replace('.', '', $this->currency->format($total['value'], $country_to_currency[$order_info['payment_iso_code_3']], '', false)),
-						'vat'      => (float)$total['tax_rate'],
-						'discount' => 0.0,
-						'flags'    => 0,
-					)
-				);
-			}
-			
-			$digest = '';
-			
-			foreach ($goods_list as $goods) {
-				$digest .= $goods['goods']['title'] . ':';
-			}
-			
-			$digest = base64_encode(pack('H*', hash('sha256', $digest . $klarna_account[$order_info['payment_iso_code_3']]['secret'])));
-			
-			if (isset($this->request->post['pno'])) {
-				$pno = $this->request->post['pno'];
-			} elseif ($order_info['payment_company_id']) {
-				$pno = $order_info['payment_company_id'];
-			} else {
-				$pno = sprintf('%02d', (int)$this->request->post['pno_day']) . sprintf('%02d', (int)$this->request->post['pno_month']) . (int)$this->request->post['pno_year'];
-			}
-			
-			$pclass = (int)$this->request->post['code'];
-			
-			if (isset($this->request->post['gender']) && ($order_info['payment_iso_code_3'] == 'DEU' || $order_info['payment_iso_code_3'] == 'NLD')) {
-				$gender = (int)$this->request->post['gender'];
-			} else {
-				$gender = '';
-			}
-			
-			$transaction = array(
-				'4.1',
-				'API:OPENCART:' . VERSION,
-				$pno,
-				$gender,
-				'',
-				'', 
-				(string)$order_info['order_id'], 
-				'',
-				$address, 
-				$address, 
-				$order_info['ip'],
-				0, 
-				$currency, 
-				$country,
-				$language, 
-				(int)$klarna_account[$order_info['payment_iso_code_3']]['merchant'],
-				$digest, 
-				$encoding,
-				$pclass, 
-				$goods_list,
-				$order_info['comment'],
-				array('delay_adjust' => 1),
-				array(),
-				array(),
-				array(),
-				array(),
-				array(),
-			);
-			
-			$xml  = '<methodCall>';
-			$xml .= '  <methodName>add_invoice</methodName>';
-			$xml .= '  <params>';
-			
-			foreach ($transaction as $parameter)  {
-				$xml .= '    <param><value>' . $this->constructXmlrpc($parameter) . '</value></param>';
-			}
-			
-			$xml .= '  </params>';
-			$xml .= '</methodCall>';        
-	
-			$curl = curl_init();
-	
-			$header  = 'Content-Type: text/xml' . "\n";
-			$header .= 'Content-Length: ' . strlen($xml) . "\n";
-	
-			curl_setopt($curl, CURLOPT_URL, $url);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
-			curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
-	
-			$response = curl_exec($curl);
-			
-			if (curl_errno($curl)) {
-				$log = new Log('klarna_account.log');
-				
-				$log->write('HTTP Error for order #' . $order_info['order_id'] . '. Code: ' . curl_errno($curl) . ' message: ' . curl_error($curl));
-				
-				$json['error'] = $this->language->get('error_network');
-			} else {
-				preg_match('/<member><name>faultString<\/name><value><string>(.+)<\/string><\/value><\/member>/', $response, $match);
-	
-				if (isset($match[1])) {
-					preg_match('/<member><name>faultCode<\/name><value><int>([0-9]+)<\/int><\/value><\/member>/', $response, $match2);
-					
-					$log = new Log('klarna_account.log');
-					
-					$log->write('Failed to create an invoice for order #' . $order_info['order_id'] . '. Message: ' . utf8_encode($match[1]) . ' Code: ' . $match2[1]);
-					
-					$json['error'] = utf8_encode($match[1]); 
-				} else {
-					$xml = new DOMDocument();
-					$xml->loadXML($response);
-					
-					$invoice_number = $xml->getElementsByTagName('string')->item(0)->nodeValue;
-					$klarna_order_status = $xml->getElementsByTagName('int')->item(0)->nodeValue;
-	
-					if ($klarna_order_status == '1') {
-						$order_status = $this->config->get('klarna_account_accepted_status_id');
-					} elseif ($klarna_order_status == '2') {
-						$order_status = $this->config->get('klarna_account_pending_status_id');
-					} else {
-						$order_status = $this->config->get('config_order_status_id');
-					}
-					
-					$comment = sprintf($this->language->get('text_order_comment'), $invoice_number, $this->config->get('config_currency'), $country_to_currency[$order_info['payment_iso_code_3']], $this->currency->getValue($country_to_currency[$order_info['payment_iso_code_3']]));
-					
-					$this->model_checkout_order->confirm($this->session->data['order_id'], $order_status, $comment, 1);
-					
-					$json['redirect'] = $this->url->link('checkout/success');
-				}
-			}
-			
-			curl_close($curl);
-		} else {
-			$json['error'] = $this->language->get('error_address_match');
-		}	
-		
+        // Order must have identical shipping and billing address or have no shipping address at all
+        if ($order_info && $order_info['payment_firstname'] == $order_info['shipping_firstname'] && $order_info['payment_lastname'] == $order_info['shipping_lastname'] && $order_info['payment_address_1'] == $order_info['shipping_address_1'] && $order_info['payment_address_2'] == $order_info['shipping_address_2'] && $order_info['payment_postcode'] == $order_info['shipping_postcode'] && $order_info['payment_city'] == $order_info['shipping_city'] && $order_info['payment_zone_id'] == $order_info['shipping_zone_id'] && $order_info['payment_zone_code'] == $order_info['shipping_zone_code'] && $order_info['payment_country_id'] == $order_info['shipping_country_id'] && $order_info['payment_country'] == $order_info['shipping_country'] && $order_info['payment_iso_code_3'] == $order_info['shipping_iso_code_3']) {
+            $klarna_account = $this->config->get('klarna_account');
+            
+            if ($klarna_account[$order_info['payment_iso_code_3']]['server'] == 'live') {
+                $url = 'https://payment.klarna.com/';
+            } else {
+                $url = 'https://payment-beta.klarna.com/';
+            }
+            
+            $country_to_currency = array(
+                'NOR' => 'NOK',
+                'SWE' => 'SEK',
+                'FIN' => 'EUR',
+                'DNK' => 'DKK',
+                'DEU' => 'EUR',
+                'NLD' => 'EUR',
+            );
+            
+            switch ($order_info['payment_iso_code_3']) {
+                // Sweden
+                case 'SWE':
+                    $country = 209;
+                    $language = 138;
+                    $encoding = 2;
+                    $currency = 0;
+                    break;
+                // Finland
+                case 'FIN':
+                    $country = 73;
+                    $language = 37;
+                    $encoding = 4;
+                    $currency = 2;
+                    break;
+                // Denmark
+                case 'DNK':
+                    $country = 59;
+                    $language = 27;
+                    $encoding = 5;
+                    $currency = 3;
+                    break;
+                // Norway    
+                case 'NOR':
+                    $country = 164;
+                    $language = 97;
+                    $encoding = 3;
+                    $currency = 1;
+                    break;
+                // Germany    
+                case 'DEU':
+                    $country = 81;
+                    $language = 28;
+                    $encoding = 6;
+                    $currency = 2;
+                    break;
+                // Netherlands                                                            
+                case 'NLD':
+                    $country = 154;
+                    $language = 101;
+                    $encoding = 7;
+                    $currency = 2;
+                    break;
+            }
+            
+            if (isset($this->request->post['street'])) {
+                $street = $this->request->post['street'];
+            } else {
+                $street = $order_info['payment_address_1'];
+            }
+            
+            if (isset($this->request->post['house_no'])) {
+                $house_no = $this->request->post['house_no'];
+            } else {
+                $house_no = '';
+            }
+            
+            if (isset($this->request->post['house_ext'])) {
+                $house_ext = $this->request->post['house_ext'];
+            } else {
+                $house_ext = '';
+            }
+            
+            $address = array(
+                'email'           => $order_info['email'],
+                'telno'           => $this->request->post['phone_no'],
+                'cellno'          => '',
+                'fname'           => $order_info['payment_firstname'],
+                'lname'           => $order_info['payment_lastname'],
+                'company'         => $order_info['payment_company'],
+                'careof'          => '',
+                'street'          => $street,
+                'house_number'    => $house_no,
+                'house_extension' => $house_ext,
+                'zip'             => $order_info['payment_postcode'],
+                'city'            => $order_info['payment_city'],
+                'country'         => $country,
+            );
+            
+            $product_query = $this->db->query("SELECT `name`, `model`, `price`, `quantity`, `tax` / `price` * 100 AS 'tax_rate' FROM `" . DB_PREFIX . "order_product` WHERE `order_id` = " . (int) $order_info['order_id'] . " UNION ALL SELECT '', `code`, `amount`, '1', 0.00 FROM `" . DB_PREFIX . "order_voucher` WHERE `order_id` = " . (int) $order_info['order_id']);
+    
+            foreach ($product_query->rows as $product) {
+                $goods_list[] = array(
+                    'qty'   => (int)$product['quantity'],
+                    'goods' => array(
+                        'artno'    => $product['model'],
+                        'title'    => $product['name'],
+                        'price'    => (int)str_replace('.', '', $this->currency->format($product['price'], $country_to_currency[$order_info['payment_iso_code_3']], '', false)),
+                        'vat'      => (float)$product['tax_rate'],
+                        'discount' => 0.0,
+                        'flags'    => 0,
+                    )
+                );
+            }
+            
+            $total_query = $this->db->query("
+                SELECT `title`, `code`, `value`, IF(`tax` IS NULL, 0.0, `tax` / `value` * 100) AS 'tax_rate'
+                FROM `" . DB_PREFIX . "order_total`
+                LEFT JOIN `" . DB_PREFIX . "order_total_klarna` USING(`order_total_id`)
+                WHERE `order_id` = " . (int) $order_info['order_id'] . " AND `code` NOT IN ('sub_total', 'tax', 'total')");
+            
+            foreach ($total_query->rows as $total) {
+                $goods_list[] = array(
+                    'qty'   => 1,
+                    'goods' => array(
+                        'artno'    => '',
+                        'title'    => $total['title'],
+                        'price'    => (int)str_replace('.', '', $this->currency->format($total['value'], $country_to_currency[$order_info['payment_iso_code_3']], '', false)),
+                        'vat'      => (float)$total['tax_rate'],
+                        'discount' => 0.0,
+                        'flags'    => 0,
+                    )
+                );
+            }
+            
+            $digest = '';
+            
+            foreach ($goods_list as $goods) {
+                $digest .= $goods['goods']['title'] . ':';
+            }
+            
+            $digest = base64_encode(pack('H*', hash('sha256', $digest . $klarna_account[$order_info['payment_iso_code_3']]['secret'])));
+            
+            if (isset($this->request->post['pno'])) {
+                $pno = $this->request->post['pno'];
+            } elseif ($order_info['payment_company_id']) {
+                $pno = $order_info['payment_company_id'];
+            } else {
+                $pno = sprintf('%02d', (int)$this->request->post['pno_day']) . sprintf('%02d', (int)$this->request->post['pno_month']) . (int)$this->request->post['pno_year'];
+            }
+            
+            $pclass = (int)$this->request->post['code'];
+            
+            if (isset($this->request->post['gender']) && ($order_info['payment_iso_code_3'] == 'DEU' || $order_info['payment_iso_code_3'] == 'NLD')) {
+                $gender = (int)$this->request->post['gender'];
+            } else {
+                $gender = '';
+            }
+            
+            $transaction = array(
+                '4.1',
+                'API:OPENCART:' . VERSION,
+                $pno,
+                $gender,
+                '',
+                '', 
+                (string)$order_info['order_id'], 
+                '',
+                $address, 
+                $address, 
+                $order_info['ip'],
+                0, 
+                $currency, 
+                $country,
+                $language, 
+                (int)$klarna_account[$order_info['payment_iso_code_3']]['merchant'],
+                $digest, 
+                $encoding,
+                $pclass, 
+                $goods_list,
+                $order_info['comment'],
+                array('delay_adjust' => 1),
+                array(),
+                array(),
+                array(),
+                array(),
+                array(),
+            );
+            
+            $xml  = '<methodCall>';
+            $xml .= '  <methodName>add_invoice</methodName>';
+            $xml .= '  <params>';
+            
+            foreach ($transaction as $parameter)  {
+                $xml .= '    <param><value>' . $this->constructXmlrpc($parameter) . '</value></param>';
+            }
+            
+            $xml .= '  </params>';
+            $xml .= '</methodCall>';        
+    
+            $curl = curl_init();
+    
+            $header  = 'Content-Type: text/xml' . "\n";
+            $header .= 'Content-Length: ' . strlen($xml) . "\n";
+    
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 1);
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
+    
+            $response = curl_exec($curl);
+            
+            if (curl_errno($curl)) {
+                $log = new Log('klarna_account.log');
+                
+                $log->write('HTTP Error for order #' . $order_info['order_id'] . '. Code: ' . curl_errno($curl) . ' message: ' . curl_error($curl));
+                
+                $json['error'] = $this->language->get('error_network');
+            } else {
+                preg_match('/<member><name>faultString<\/name><value><string>(.+)<\/string><\/value><\/member>/', $response, $match);
+    
+                if (isset($match[1])) {
+                    preg_match('/<member><name>faultCode<\/name><value><int>([0-9]+)<\/int><\/value><\/member>/', $response, $match2);
+                    
+                    $log = new Log('klarna_account.log');
+                    
+                    $log->write('Failed to create an invoice for order #' . $order_info['order_id'] . '. Message: ' . utf8_encode($match[1]) . ' Code: ' . $match2[1]);
+                    
+                    $json['error'] = utf8_encode($match[1]); 
+                } else {
+                    $xml = new DOMDocument();
+                    $xml->loadXML($response);
+                    
+                    $invoice_number = $xml->getElementsByTagName('string')->item(0)->nodeValue;
+                    $klarna_order_status = $xml->getElementsByTagName('int')->item(0)->nodeValue;
+    
+                    if ($klarna_order_status == '1') {
+                        $order_status = $this->config->get('klarna_account_accepted_status_id');
+                    } elseif ($klarna_order_status == '2') {
+                        $order_status = $this->config->get('klarna_account_pending_status_id');
+                    } else {
+                        $order_status = $this->config->get('config_order_status_id');
+                    }
+                    
+                    $comment = sprintf($this->language->get('text_order_comment'), $invoice_number, $this->config->get('config_currency'), $country_to_currency[$order_info['payment_iso_code_3']], $this->currency->getValue($country_to_currency[$order_info['payment_iso_code_3']]));
+                    
+                    $this->model_checkout_order->confirm($this->session->data['order_id'], $order_status, $comment, 1);
+                    
+                    $json['redirect'] = $this->url->link('checkout/success');
+                }
+            }
+            
+            curl_close($curl);
+        } else {
+            $json['error'] = $this->language->get('error_address_match');
+        }    
+        
         $this->response->setOutput(json_encode($json));
     }
     
@@ -645,11 +645,11 @@ class ControllerPaymentKlarnaAccount extends Controller {
             default:
                 $log = new Log('klarna.log');
                
-			    $log->write('Unknown country ' . $country);
+                $log->write('Unknown country ' . $country);
                 
-				$amount = NULL;
+                $amount = NULL;
                 break;
-		}
+        }
         
         return $amount;
     }

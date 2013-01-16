@@ -107,39 +107,39 @@
 <a id="klarna_toc_link">test</a>
 <script type="text/javascript"><!--
 $('#button-confirm').bind('click', function() {
-	$.ajax({
-		url: 'index.php?route=payment/klarna_account/send',
-		type: 'post',
-		data: $('#payment :input'),
-		dataType: 'json',		
-		beforeSend: function() {
-			$('#button-confirm').attr('disabled', true);
-			$('#payment').before('<div class="attention"><img src="catalog/view/theme/default/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
-		},
-		complete: function() {
-			$('#button-confirm').attr('disabled', false);
-			$('.attention').remove();
-		},		
-		success: function(json) {
-			$('.warning, .error').remove();			
-			
-			if (json['error']) {
-				$('#payment').before('<div class="warning">' + json['error'] + '</div>');
-			}
+    $.ajax({
+        url: 'index.php?route=payment/klarna_account/send',
+        type: 'post',
+        data: $('#payment :input'),
+        dataType: 'json',        
+        beforeSend: function() {
+            $('#button-confirm').attr('disabled', true);
+            $('#payment').before('<div class="attention"><img src="catalog/view/theme/default/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+        },
+        complete: function() {
+            $('#button-confirm').attr('disabled', false);
+            $('.attention').remove();
+        },        
+        success: function(json) {
+            $('.warning, .error').remove();            
+            
+            if (json['error']) {
+                $('#payment').before('<div class="warning">' + json['error'] + '</div>');
+            }
 
-			if (json['redirect']) {
-				location = json['redirect'];
-			}
-		}
-	});
+            if (json['redirect']) {
+                location = json['redirect'];
+            }
+        }
+    });
 });
 
 $.getScript('http://cdn.klarna.com/public/kitt/toc/v1.0/js/klarna.terms.min.js', function(){
-	var terms = new Klarna.Terms.Account({  
-		el: 'klarna_toc_link', 
-		eid: <?php echo $merchant ?>,             
-		country: '<?php echo strtolower($iso_code_2); ?>',
-	});
+    var terms = new Klarna.Terms.Account({  
+        el: 'klarna_toc_link', 
+        eid: <?php echo $merchant ?>,             
+        country: '<?php echo strtolower($iso_code_2); ?>',
+    });
 });
 
 $(document).ready(function(){
@@ -175,32 +175,32 @@ $(document).ready(function(){
     }).focusout(function () {
         hideBaloon();
     });
-	
-	function hideBaloon (callback) {
-		if ($('#klarna_baloon').is(":visible")) {
-			$('#klarna_baloon').fadeOut('fast', function (){
-				if (callback) {
-					callback();
-				}
-				return true;
-			});
-		} else {
-			if(callback) {
-				callback();
-			}
-			
-			return true;
-		}
-	}
+    
+    function hideBaloon (callback) {
+        if ($('#klarna_baloon').is(":visible")) {
+            $('#klarna_baloon').fadeOut('fast', function (){
+                if (callback) {
+                    callback();
+                }
+                return true;
+            });
+        } else {
+            if(callback) {
+                callback();
+            }
+            
+            return true;
+        }
+    }
 
 
 <?php if ($iso_code_3 == 'DNK') { ?>
 $('#payment input[name=\'code\']').change(function(){
-	if ($(this).attr('value') == '-1') {
-		$('input[name="yearly_salary"]').prop('disabled', true);
-	} else {
-		$('input[name="yearly_salary"]').prop('disabled', false);
-	}
+    if ($(this).attr('value') == '-1') {
+        $('input[name="yearly_salary"]').prop('disabled', true);
+    } else {
+        $('input[name="yearly_salary"]').prop('disabled', false);
+    }
 });
 <?php } ?>
     

@@ -4,28 +4,28 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here.
-	// For the complete reference:
-	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
-	config.filebrowserWindowWidth = '800';
-	config.filebrowserWindowHeight = '500';
-	config.resize_enabled = false;
-	config.htmlEncodeOutput = false;
-	config.entities = false;
-	config.toolbar = 'Custom';
+    // Define changes to default configuration here.
+    // For the complete reference:
+    // http://docs.ckeditor.com/#!/api/CKEDITOR.config
+    config.filebrowserWindowWidth = '800';
+    config.filebrowserWindowHeight = '500';
+    config.resize_enabled = false;
+    config.htmlEncodeOutput = false;
+    config.entities = false;
+    config.toolbar = 'Custom';
 
-	config.toolbar_Custom = [
-		['Source'],
-		['Maximize'],
-		['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
-		['NumberedList','BulletedList','-','Outdent','Indent'],
-		['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-		['SpecialChar'],
-		'/',
-		['Undo','Redo'],
-		['Font','FontSize'],
-		['TextColor','BGColor'],
-		['Link','Unlink','Anchor'],
-		['Image','Table','HorizontalRule']
-	];
+    config.toolbar_Custom = [
+        ['Source'],
+        ['Maximize'],
+        ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+        ['NumberedList','BulletedList','-','Outdent','Indent'],
+        ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
+        ['SpecialChar'],
+        '/',
+        ['Undo','Redo'],
+        ['Font','FontSize'],
+        ['TextColor','BGColor'],
+        ['Link','Unlink','Anchor'],
+        ['Image','Table','HorizontalRule']
+    ];
 };

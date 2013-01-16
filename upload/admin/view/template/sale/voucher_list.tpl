@@ -96,27 +96,27 @@
 </div>
 <script type="text/javascript"><!--
 function sendVoucher(voucher_id) {
-	$.ajax({
-		url: 'index.php?route=sale/voucher/send&token=<?php echo $token; ?>&voucher_id=' + voucher_id,
-		type: 'post',
-		dataType: 'json',
-		beforeSend: function() {
-			$('.success, .warning').remove();
-			$('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
-		},
-		complete: function() {
-			$('.attention').remove();
-		},
-		success: function(json) {
-			if (json['error']) {
-				$('.box').before('<div class="warning">' + json['error'] + '</div>');
-			}
-			
-			if (json['success']) {
-				$('.box').before('<div class="success">' + json['success'] + '</div>');
-			}		
-		}
-	});
+    $.ajax({
+        url: 'index.php?route=sale/voucher/send&token=<?php echo $token; ?>&voucher_id=' + voucher_id,
+        type: 'post',
+        dataType: 'json',
+        beforeSend: function() {
+            $('.success, .warning').remove();
+            $('.box').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+        },
+        complete: function() {
+            $('.attention').remove();
+        },
+        success: function(json) {
+            if (json['error']) {
+                $('.box').before('<div class="warning">' + json['error'] + '</div>');
+            }
+            
+            if (json['success']) {
+                $('.box').before('<div class="success">' + json['success'] + '</div>');
+            }        
+        }
+    });
 }
 //--></script> 
 <?php echo $footer; ?>

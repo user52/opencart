@@ -64,42 +64,42 @@
 </div>
 <script type="text/javascript"><!--
 $('#button-confirm').bind('click', function() {
-	$.ajax({
-		url: 'index.php?route=payment/sagepay_direct/send',
-		type: 'post',
-		data: $('#payment :input'),
-		dataType: 'json',		
-		beforeSend: function() {
-			$('#button-confirm').attr('disabled', true);
-			$('#payment').before('<div class="attention"><img src="catalog/view/theme/default/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
-		},
-		complete: function() {
-			$('#button-confirm').attr('disabled', false);
-			$('.attention').remove();
-		},				
-		success: function(json) {
-			if (json['ACSURL']) {
-				$('#3dauth').remove();
-				
-				html  = '<form action="' + json['ACSURL'] + '" method="post" id="3dauth">';
-				html += '<input type="hidden" name="MD" value="' + json['MD'] + '" />';
-				html += '<input type="hidden" name="PaReq" value="' + json['PaReq'] + '" />';
-				html += '<input type="hidden" name="TermUrl" value="' + json['TermUrl'] + '" />';
-				html += '</form>';
-				
-				$('#payment').after(html);
-				
-				$('#3dauth').submit();
-			}
-			
-			if (json['error']) {
-				alert(json['error']);
-			}
-			
-			if (json['success']) {
-				location = json['success'];
-			}
-		}
-	});
+    $.ajax({
+        url: 'index.php?route=payment/sagepay_direct/send',
+        type: 'post',
+        data: $('#payment :input'),
+        dataType: 'json',        
+        beforeSend: function() {
+            $('#button-confirm').attr('disabled', true);
+            $('#payment').before('<div class="attention"><img src="catalog/view/theme/default/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+        },
+        complete: function() {
+            $('#button-confirm').attr('disabled', false);
+            $('.attention').remove();
+        },                
+        success: function(json) {
+            if (json['ACSURL']) {
+                $('#3dauth').remove();
+                
+                html  = '<form action="' + json['ACSURL'] + '" method="post" id="3dauth">';
+                html += '<input type="hidden" name="MD" value="' + json['MD'] + '" />';
+                html += '<input type="hidden" name="PaReq" value="' + json['PaReq'] + '" />';
+                html += '<input type="hidden" name="TermUrl" value="' + json['TermUrl'] + '" />';
+                html += '</form>';
+                
+                $('#payment').after(html);
+                
+                $('#3dauth').submit();
+            }
+            
+            if (json['error']) {
+                alert(json['error']);
+            }
+            
+            if (json['success']) {
+                location = json['success'];
+            }
+        }
+    });
 });
 //--></script> 

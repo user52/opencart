@@ -235,88 +235,88 @@
 </div>
 <script type="text/javascript"><!--
 $('select[name=\'country_id\']').bind('change', function() {
-	$.ajax({
-		url: 'index.php?route=sale/affiliate/country&token=<?php echo $token; ?>&country_id=' + this.value,
-		dataType: 'json',
-		beforeSend: function() {
-			$('select[name=\'payment_country_id\']').after('<span class="wait">&nbsp;<img src="view/image/loading.gif" alt="" /></span>');
-		},
-		complete: function() {
-			$('.wait').remove();
-		},			
-		success: function(json) {
-			if (json['postcode_required'] == '1') {
-				$('#postcode-required').show();
-			} else {
-				$('#postcode-required').hide();
-			}
-			
-			html = '<option value=""><?php echo $text_select; ?></option>';
-			
-			if (json != '' && json['zone'] != '') {
-				for (i = 0; i < json['zone'].length; i++) {
-        			html += '<option value="' + json['zone'][i]['zone_id'] + '"';
-	    			
-					if (json['zone'][i]['zone_id'] == '<?php echo $zone_id; ?>') {
-	      				html += ' selected="selected"';
-	    			}
-	
-	    			html += '>' + json['zone'][i]['name'] + '</option>';
-				}
-			} else {
-				html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
-			}
-			
-			$('select[name=\'zone_id\']').html(html);
-		},
-		error: function(xhr, ajaxOptions, thrownError) {
-			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-		}
-	});
+    $.ajax({
+        url: 'index.php?route=sale/affiliate/country&token=<?php echo $token; ?>&country_id=' + this.value,
+        dataType: 'json',
+        beforeSend: function() {
+            $('select[name=\'payment_country_id\']').after('<span class="wait">&nbsp;<img src="view/image/loading.gif" alt="" /></span>');
+        },
+        complete: function() {
+            $('.wait').remove();
+        },            
+        success: function(json) {
+            if (json['postcode_required'] == '1') {
+                $('#postcode-required').show();
+            } else {
+                $('#postcode-required').hide();
+            }
+            
+            html = '<option value=""><?php echo $text_select; ?></option>';
+            
+            if (json != '' && json['zone'] != '') {
+                for (i = 0; i < json['zone'].length; i++) {
+                    html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+                    
+                    if (json['zone'][i]['zone_id'] == '<?php echo $zone_id; ?>') {
+                          html += ' selected="selected"';
+                    }
+    
+                    html += '>' + json['zone'][i]['name'] + '</option>';
+                }
+            } else {
+                html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+            }
+            
+            $('select[name=\'zone_id\']').html(html);
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
 });
 
 $('select[name=\'country_id\']').trigger('change');
 //--></script> 
 <script type="text/javascript"><!--
 $('input[name=\'payment\']').bind('change', function() {
-	$('.payment').hide();
-	
-	$('#payment-' + this.value).show();
+    $('.payment').hide();
+    
+    $('#payment-' + this.value).show();
 });
 
 $('input[name=\'payment\']:checked').trigger('change');
 //--></script> 
 <script type="text/javascript"><!--
 $('#transaction .pagination a').live('click', function() {
-	$('#transaction').load(this.href);
-	
-	return false;
-});			
+    $('#transaction').load(this.href);
+    
+    return false;
+});            
 
 $('#transaction').load('index.php?route=sale/affiliate/transaction&token=<?php echo $token; ?>&affiliate_id=<?php echo $affiliate_id; ?>');
 
 function addTransaction() {
-	$.ajax({
-		url: 'index.php?route=sale/affiliate/transaction&token=<?php echo $token; ?>&affiliate_id=<?php echo $affiliate_id; ?>',
-		type: 'post',
-		dataType: 'html',
-		data: 'description=' + encodeURIComponent($('#tab-transaction input[name=\'description\']').val()) + '&amount=' + encodeURIComponent($('#tab-transaction input[name=\'amount\']').val()),
-		beforeSend: function() {
-			$('.success, .warning').remove();
-			$('#button-transaction').attr('disabled', true);
-			$('#transaction').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
-		},
-		complete: function() {
-			$('#button-transaction').attr('disabled', false);
-			$('.attention').remove();
-		},
-		success: function(html) {
-			$('#transaction').html(html);
-			
-			$('#tab-transaction input[name=\'amount\']').val('');
-			$('#tab-transaction input[name=\'description\']').val('');
-		}
-	});
+    $.ajax({
+        url: 'index.php?route=sale/affiliate/transaction&token=<?php echo $token; ?>&affiliate_id=<?php echo $affiliate_id; ?>',
+        type: 'post',
+        dataType: 'html',
+        data: 'description=' + encodeURIComponent($('#tab-transaction input[name=\'description\']').val()) + '&amount=' + encodeURIComponent($('#tab-transaction input[name=\'amount\']').val()),
+        beforeSend: function() {
+            $('.success, .warning').remove();
+            $('#button-transaction').attr('disabled', true);
+            $('#transaction').before('<div class="attention"><img src="view/image/loading.gif" alt="" /> <?php echo $text_wait; ?></div>');
+        },
+        complete: function() {
+            $('#button-transaction').attr('disabled', false);
+            $('.attention').remove();
+        },
+        success: function(html) {
+            $('#transaction').html(html);
+            
+            $('#tab-transaction input[name=\'amount\']').val('');
+            $('#tab-transaction input[name=\'description\']').val('');
+        }
+    });
 }
 //--></script> 
 <script type="text/javascript"><!--

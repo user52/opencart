@@ -138,59 +138,59 @@
 </div>
 <script type="text/javascript"><!--
 $('select[name=\'type\']').bind('change', function() {
-	if (this.value == 'select' || this.value == 'radio' || this.value == 'checkbox' || this.value == 'image') {
-		$('#option-value').show();
-	} else {
-		$('#option-value').hide();
-	}
+    if (this.value == 'select' || this.value == 'radio' || this.value == 'checkbox' || this.value == 'image') {
+        $('#option-value').show();
+    } else {
+        $('#option-value').hide();
+    }
 });
 
 var option_value_row = <?php echo $option_value_row; ?>;
 
 function addOptionValue() {
-	html  = '<tbody id="option-value-row' + option_value_row + '">';
-	html += '  <tr>';	
+    html  = '<tbody id="option-value-row' + option_value_row + '">';
+    html += '  <tr>';    
     html += '    <td class="left"><input type="hidden" name="option_value[' + option_value_row + '][option_value_id]" value="" />';
-	<?php foreach ($languages as $language) { ?>
-	html += '<input type="text" name="option_value[' + option_value_row + '][option_value_description][<?php echo $language['language_id']; ?>][name]" value="" /> <img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />';
+    <?php foreach ($languages as $language) { ?>
+    html += '<input type="text" name="option_value[' + option_value_row + '][option_value_description][<?php echo $language['language_id']; ?>][name]" value="" /> <img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />';
     <?php } ?>
-	html += '    </td>';
+    html += '    </td>';
     html += '    <td class="left"><div class="image"><img src="<?php echo $no_image; ?>" alt="" id="thumb' + option_value_row + '" /><input type="hidden" name="option_value[' + option_value_row + '][image]" value="" id="image' + option_value_row + '" /><br /><a onclick="image_upload(\'image' + option_value_row + '\', \'thumb' + option_value_row + '\');"><?php echo $text_browse; ?></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="$(\'#thumb' + option_value_row + '\').attr(\'src\', \'<?php echo $no_image; ?>\'); $(\'#image' + option_value_row + '\').attr(\'value\', \'\');"><?php echo $text_clear; ?></a></div></td>';
-	html += '    <td class="right"><input type="text" name="option_value[' + option_value_row + '][sort_order]" value="" size="1" /></td>';
-	html += '    <td class="left"><a onclick="$(\'#option-value-row' + option_value_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
-	html += '  </tr>';	
+    html += '    <td class="right"><input type="text" name="option_value[' + option_value_row + '][sort_order]" value="" size="1" /></td>';
+    html += '    <td class="left"><a onclick="$(\'#option-value-row' + option_value_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
+    html += '  </tr>';    
     html += '</tbody>';
-	
-	$('#option-value tfoot').before(html);
-	
-	option_value_row++;
+    
+    $('#option-value tfoot').before(html);
+    
+    option_value_row++;
 }
 //--></script> 
 <script type="text/javascript"><!--
 function image_upload(field, thumb) {
-	$('#dialog').remove();
-	
-	$('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="index.php?route=common/filemanager&token=<?php echo $token; ?>&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
-	
-	$('#dialog').dialog({
-		title: '<?php echo $text_image_manager; ?>',
-		close: function (event, ui) {
-			if ($('#' + field).attr('value')) {
-				$.ajax({
-					url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).attr('value')),
-					dataType: 'text',
-					success: function(data) {
-						$('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
-					}
-				});
-			}
-		},	
-		bgiframe: false,
-		width: 800,
-		height: 400,
-		resizable: false,
-		modal: false
-	});
+    $('#dialog').remove();
+    
+    $('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="index.php?route=common/filemanager&token=<?php echo $token; ?>&field=' + encodeURIComponent(field) + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
+    
+    $('#dialog').dialog({
+        title: '<?php echo $text_image_manager; ?>',
+        close: function (event, ui) {
+            if ($('#' + field).attr('value')) {
+                $.ajax({
+                    url: 'index.php?route=common/filemanager/image&token=<?php echo $token; ?>&image=' + encodeURIComponent($('#' + field).attr('value')),
+                    dataType: 'text',
+                    success: function(data) {
+                        $('#' + thumb).replaceWith('<img src="' + data + '" alt="" id="' + thumb + '" />');
+                    }
+                });
+            }
+        },    
+        bgiframe: false,
+        width: 800,
+        height: 400,
+        resizable: false,
+        modal: false
+    });
 };
 //--></script> 
 <?php echo $footer; ?>

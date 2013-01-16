@@ -5,29 +5,29 @@
 <title><?php echo $title; ?></title>
 <style type="text/css">
 body {
-	color: #000000;
-	font-family: Arial, Helvetica, sans-serif;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
 }
 body, td, th, input, textarea, select, a {
-	font-size: 12px;
+    font-size: 12px;
 }
 p {
-	margin-top: 0px;
-	margin-bottom: 20px;
+    margin-top: 0px;
+    margin-bottom: 20px;
 }
 a, a:visited, a b {
-	color: #378DC1;
-	text-decoration: underline;
-	cursor: pointer;
+    color: #378DC1;
+    text-decoration: underline;
+    cursor: pointer;
 }
 a:hover {
-	text-decoration: none;
+    text-decoration: none;
 }
 a img {
-	border: none;
+    border: none;
 }
 #container {
-	width: 680px;
+    width: 680px;
 }
 </style>
 </head>
