@@ -7,8 +7,8 @@
 </div>
 <script type="text/javascript"><!--
 $('#carousel<?php echo $module; ?> ul').jcarousel({
-	vertical: false,
-	visible: <?php echo $limit; ?>,
-	scroll: <?php echo $scroll; ?>
+    vertical: false,
+    visible: <?php echo $limit; ?>,
+    scroll: <?php echo $scroll; ?>
 });
 //--></script>

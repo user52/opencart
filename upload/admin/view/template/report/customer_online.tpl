@@ -58,21 +58,21 @@
 </div>
 <script type="text/javascript"><!--
 function filter() {
-	url = 'index.php?route=report/customer_online&token=<?php echo $token; ?>';
-	
-	var filter_customer = $('input[name=\'filter_customer\']').attr('value');
-	
-	if (filter_customer) {
-		url += '&filter_customer=' + encodeURIComponent(filter_customer);
-	}
-		
-	var filter_ip = $('input[name=\'filter_ip\']').attr('value');
-	
-	if (filter_ip) {
-		url += '&filter_ip=' + encodeURIComponent(filter_ip);
-	}
-				
-	location = url;
+    url = 'index.php?route=report/customer_online&token=<?php echo $token; ?>';
+    
+    var filter_customer = $('input[name=\'filter_customer\']').attr('value');
+    
+    if (filter_customer) {
+        url += '&filter_customer=' + encodeURIComponent(filter_customer);
+    }
+        
+    var filter_ip = $('input[name=\'filter_ip\']').attr('value');
+    
+    if (filter_ip) {
+        url += '&filter_ip=' + encodeURIComponent(filter_ip);
+    }
+                
+    location = url;
 }
 //--></script> 
 <?php echo $footer; ?>

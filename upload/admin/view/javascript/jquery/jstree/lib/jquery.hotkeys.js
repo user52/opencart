@@ -67,7 +67,7 @@ Note:
     jQuery.fn.find = function( selector ) {
         this.query=selector;
         return jQuery.fn.__find__.apply(this, arguments);
-	};
+    };
     
     jQuery.fn.unbind = function (type, combi, fn){
         if (jQuery.isFunction(combi)){

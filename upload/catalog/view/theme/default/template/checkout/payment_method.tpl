@@ -42,7 +42,7 @@
 <?php } ?>
 <script type="text/javascript"><!--
 $('.colorbox').colorbox({
-	width: 640,
-	height: 480
+    width: 640,
+    height: 480
 });
 //--></script> 

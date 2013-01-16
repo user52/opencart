@@ -1,23 +1,23 @@
 <?php
 class Captcha {
-	protected $code;
-	protected $width = 35;
-	protected $height = 150;
+    protected $code;
+    protected $width = 35;
+    protected $height = 150;
 
-	function __construct() { 
-		$this->code = substr(sha1(mt_rand()), 17, 6); 
-	}
+    function __construct() { 
+        $this->code = substr(sha1(mt_rand()), 17, 6); 
+    }
 
-	function getCode(){
-		return $this->code;
-	}
+    function getCode(){
+        return $this->code;
+    }
 
-	function showImage() {
+    function showImage() {
         $image = imagecreatetruecolor($this->height, $this->width);
 
         $width = imagesx($image); 
         $height = imagesy($image);
-		
+        
         $black = imagecolorallocate($image, 0, 0, 0); 
         $white = imagecolorallocate($image, 255, 255, 255); 
         $red = imagecolorallocatealpha($image, 255, 0, 0, 75); 
@@ -36,12 +36,12 @@ class Captcha {
         imagefilledrectangle($image, 0, $height - 1, $width, $height - 1, $black); 
          
         imagestring($image, 10, intval(($width - (strlen($this->code) * 9)) / 2),  intval(($height - 15) / 2), $this->code, $black);
-	
-		header('Content-type: image/jpeg');
-		
-		imagejpeg($image);
-		
-		imagedestroy($image);		
-	}
+    
+        header('Content-type: image/jpeg');
+        
+        imagejpeg($image);
+        
+        imagedestroy($image);        
+    }
 }
 ?>

@@ -424,21 +424,21 @@
           <tr>
             <td><span class="required">*</span> <?php echo $entry_dimension; ?></td>
             <td>
-		      <input type="text" name="usps_length" value="<?php echo $usps_length; ?>" size="4" />
+              <input type="text" name="usps_length" value="<?php echo $usps_length; ?>" size="4" />
               <input type="text" name="usps_width" value="<?php echo $usps_width; ?>" size="4" />
               <input type="text" name="usps_height" value="<?php echo $usps_height; ?>" size="4" />
-			  <?php if ($error_width) { ?>
+              <?php if ($error_width) { ?>
               <span class="error"><?php echo $error_width; ?></span>
               <?php } ?>
-			  <?php if ($error_length) { ?>
+              <?php if ($error_length) { ?>
               <span class="error"><?php echo $error_length; ?></span>
               <?php } ?>
-			  <?php if ($error_height) { ?>
+              <?php if ($error_height) { ?>
               <span class="error"><?php echo $error_height; ?></span>
               <?php } ?>
-		    </td>
+            </td>
           </tr>
-		  <tr>
+          <tr>
             <td><?php echo $entry_display_time; ?></td>
             <td><?php if ($usps_display_time) { ?>
               <input type="radio" name="usps_display_time" value="1" checked="checked" />
@@ -520,7 +520,7 @@
             <td><?php echo $entry_sort_order; ?></td>
             <td><input type="text" name="usps_sort_order" value="<?php echo $usps_sort_order; ?>" size="1" /></td>
           </tr>
-		  <tr>
+          <tr>
             <td><?php echo $entry_debug; ?></td>
             <td><select name="usps_debug">
               <?php if ($usps_debug) { ?>

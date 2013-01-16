@@ -169,7 +169,7 @@
                 <?php } ?>
               </select></td>
           </tr>    
-		  <tr>
+          <tr>
             <td><?php echo $entry_display_time; ?></td>
             <td><?php if ($fedex_display_time) { ?>
               <input type="radio" name="fedex_display_time" value="1" checked="checked" />

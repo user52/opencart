@@ -41,7 +41,7 @@
                 </div>
                 <?php } ?>
             </div></td>
-          </tr> 		  
+          </tr>           
           <tr>
             <td><?php echo $entry_sort_order; ?></td>
             <td><input type="text" name="sort_order" value="<?php echo $sort_order; ?>" size="1" /></td>
@@ -87,61 +87,61 @@
 <script type="text/javascript"><!--
 // Category
 $('input[name=\'category\']').autocomplete({
-	delay: 500,
-	source: function(request, response) {
-		$.ajax({
-			url: 'index.php?route=catalog/category/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-			dataType: 'json',
-			success: function(json) {		
-				response($.map(json, function(item) {
-					return {
-						label: item.name,
-						value: item.category_id
-					}
-				}));
-			}
-		});
-	}, 
-	select: function(event, ui) {
-		$('#filter-category' + ui.item.value).remove();
-		
-		$('#filter-category').append('<div id="filter-category' + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" alt="" /><input type="hidden" name="filter_category[]" value="' + ui.item.value + '" /></div>');
+    delay: 500,
+    source: function(request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/category/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+            dataType: 'json',
+            success: function(json) {        
+                response($.map(json, function(item) {
+                    return {
+                        label: item.name,
+                        value: item.category_id
+                    }
+                }));
+            }
+        });
+    }, 
+    select: function(event, ui) {
+        $('#filter-category' + ui.item.value).remove();
+        
+        $('#filter-category').append('<div id="filter-category' + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" alt="" /><input type="hidden" name="filter_category[]" value="' + ui.item.value + '" /></div>');
 
-		$('#filter-category div:odd').attr('class', 'odd');
-		$('#filter-category div:even').attr('class', 'even');
-				
-		return false;
-	},
-	focus: function(event, ui) {
+        $('#filter-category div:odd').attr('class', 'odd');
+        $('#filter-category div:even').attr('class', 'even');
+                
+        return false;
+    },
+    focus: function(event, ui) {
       return false;
    }
 });
 
 $('#filter-category div img').live('click', function() {
-	$(this).parent().remove();
-	
-	$('#filter-category div:odd').attr('class', 'odd');
-	$('#filter-category div:even').attr('class', 'even');	
+    $(this).parent().remove();
+    
+    $('#filter-category div:odd').attr('class', 'odd');
+    $('#filter-category div:even').attr('class', 'even');    
 });
 
 var filter_row = <?php echo $filter_row; ?>;
 
 function addFilter() {
-	html  = '<tbody id="filter-row' + filter_row + '">';
-	html += '  <tr>';	
+    html  = '<tbody id="filter-row' + filter_row + '">';
+    html += '  <tr>';    
     html += '    <td class="left"><input type="hidden" name="filter[' + filter_row + '][filter_id]" value="" />';
-	<?php foreach ($languages as $language) { ?>
-	html += '    <input type="text" name="filter[' + filter_row + '][filter_description][<?php echo $language['language_id']; ?>][name]" value="" /> <img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />';
+    <?php foreach ($languages as $language) { ?>
+    html += '    <input type="text" name="filter[' + filter_row + '][filter_description][<?php echo $language['language_id']; ?>][name]" value="" /> <img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /><br />';
     <?php } ?>
-	html += '    </td>';
-	html += '    <td class="right"><input type="text" name="filter[' + filter_row + '][sort_order]" value="" size="1" /></td>';
-	html += '     <td class="left"><a onclick="$(\'#filter-row' + filter_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
-	html += '  </tr>';	
+    html += '    </td>';
+    html += '    <td class="right"><input type="text" name="filter[' + filter_row + '][sort_order]" value="" size="1" /></td>';
+    html += '     <td class="left"><a onclick="$(\'#filter-row' + filter_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
+    html += '  </tr>';    
     html += '</tbody>';
-	
-	$('#filter tfoot').before(html);
-	
-	filter_row++;
+    
+    $('#filter tfoot').before(html);
+    
+    filter_row++;
 }
 //--></script> 
 <?php echo $footer; ?>

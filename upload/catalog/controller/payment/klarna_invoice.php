@@ -10,9 +10,9 @@ class ControllerPaymentKlarnaInvoice extends Controller {
         // The title stored in the DB gets truncated which causes order_info.tpl to not be displayed properly
         $this->db->query("UPDATE `" . DB_PREFIX . "order` SET `payment_method` = '" . $this->db->escape($this->language->get('text_payment_method_title')) . "' WHERE `order_id` = " . (int) $this->session->data['order_id']);
         
-		$klarna_invoice = $this->config->get('klarna_invoice');
+        $klarna_invoice = $this->config->get('klarna_invoice');
         
-		$settings = $countries[$order_info['payment_iso_code_3']];
+        $settings = $countries[$order_info['payment_iso_code_3']];
         
         $addressMatch = false;
         
@@ -130,7 +130,7 @@ class ControllerPaymentKlarnaInvoice extends Controller {
                 $currency = 3;
                 break;
             
-            // Norway	
+            // Norway    
             case 'NOR':
                 $country = 164;
                 $language = 97;
@@ -138,7 +138,7 @@ class ControllerPaymentKlarnaInvoice extends Controller {
                 $currency = 1;
                 break;
             
-            // Germany	
+            // Germany    
             case 'DEU':
                 $country = 81;
                 $language = 28;
@@ -146,7 +146,7 @@ class ControllerPaymentKlarnaInvoice extends Controller {
                 $currency = 2;
                 break;
             
-            // Netherlands															
+            // Netherlands                                                            
             case 'NLD':
                 $country = 154;
                 $language = 101;

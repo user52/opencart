@@ -81,9 +81,9 @@
   <?php echo $content_bottom; ?></div>
 <script type="text/javascript"><!--
 $('input[name=\'payment\']').bind('change', function() {
-	$('.payment').hide();
-	
-	$('#payment-' + this.value).show();
+    $('.payment').hide();
+    
+    $('#payment-' + this.value).show();
 });
 
 $('input[name=\'payment\']:checked').trigger('change');

@@ -94,30 +94,30 @@
 </div>
 <script type="text/javascript"><!--
 $('input[name=\'product\']').autocomplete({
-	delay: 500,
-	source: function(request, response) {
-		$.ajax({
-			url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-			dataType: 'json',
-			success: function(json) {		
-				response($.map(json, function(item) {
-					return {
-						label: item.name,
-						value: item.product_id
-					}
-				}));
-			}
-		});
-	},
-	select: function(event, ui) {
-		$('input[name=\'product\']').val(ui.item.label);
-		$('input[name=\'product_id\']').val(ui.item.value);
-		
-		return false;
-	},
-	focus: function(event, ui) {
-      	return false;
-   	}
+    delay: 500,
+    source: function(request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+            dataType: 'json',
+            success: function(json) {        
+                response($.map(json, function(item) {
+                    return {
+                        label: item.name,
+                        value: item.product_id
+                    }
+                }));
+            }
+        });
+    },
+    select: function(event, ui) {
+        $('input[name=\'product\']').val(ui.item.label);
+        $('input[name=\'product_id\']').val(ui.item.value);
+        
+        return false;
+    },
+    focus: function(event, ui) {
+          return false;
+       }
 });
 //--></script> 
 <?php echo $footer; ?>

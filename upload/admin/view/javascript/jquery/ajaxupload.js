@@ -30,8 +30,8 @@
         } else if (el.attachEvent) {
             el.attachEvent('on' + type, function(){
                 fn.call(el);
-	        });
-	    } else {
+            });
+        } else {
             throw new Error('not supported or DOM not loaded');
         }
     }   
@@ -49,7 +49,7 @@
     function addResizeEvent(fn){
         var timeout;
                
-	    addEvent(window, 'resize', function(){
+        addEvent(window, 'resize', function(){
             if (timeout){
                 clearTimeout(timeout);
             }
@@ -71,7 +71,7 @@
             var clientLeft = docElem.clientLeft || body.clientLeft || 0;
              
             // In Internet Explorer 7 getBoundingClientRect property is treated as physical,
-            // while others are logical. Make all logical, like in IE8.	
+            // while others are logical. Make all logical, like in IE8.    
             var zoom = 1;            
             if (body.getBoundingClientRect) {
                 var bound = body.getBoundingClientRect();
@@ -152,15 +152,15 @@
      * @param {Element} to
      */    
     function copyLayout(from, to){
-	    var box = getBox(from);
+        var box = getBox(from);
         
         addStyles(to, {
-	        position: 'absolute',                    
-	        left : box.left + 'px',
-	        top : box.top + 'px',
-	        width : from.offsetWidth + 'px',
-	        height : from.offsetHeight + 'px'
-	    });        
+            position: 'absolute',                    
+            left : box.left + 'px',
+            top : box.top + 'px',
+            width : from.offsetWidth + 'px',
+            height : from.offsetHeight + 'px'
+        });        
     }
 
     /**
@@ -250,7 +250,7 @@
             // Class applied to button when AU is disabled
             disabledClass: 'disabled',            
             // When user selects a file, useful with autoSubmit disabled
-            // You can return false to cancel upload			
+            // You can return false to cancel upload            
             onChange: function(file, extension){
             },
             // Callback to fire before file is uploaded
@@ -276,7 +276,7 @@
             button = button[0];
         } else if (typeof button == "string") {
             if (/^#.*/.test(button)){
-                // If jQuery user passes #elementId don't break it					
+                // If jQuery user passes #elementId don't break it                    
                 button = button.slice(1);                
             }
             
@@ -423,7 +423,7 @@
 
             });   
                         
-	        div.appendChild(input);
+            div.appendChild(input);
             document.body.appendChild(div);
               
             this._input = input;
@@ -457,7 +457,7 @@
                 }
                                 
                 if ( ! self._input){
-	                self._createInput();
+                    self._createInput();
                 }
                 
                 var div = self._input.parentNode;                            

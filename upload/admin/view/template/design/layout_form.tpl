@@ -68,22 +68,22 @@
 var route_row = <?php echo $route_row; ?>;
 
 function addRoute() {
-	html  = '<tbody id="route-row' + route_row + '">';
-	html += '  <tr>';
-	html += '    <td class="left"><select name="layout_route[' + route_row + '][store_id]">';
-	html += '    <option value="0"><?php echo $text_default; ?></option>';
-	<?php foreach ($stores as $store) { ?>
-	html += '<option value="<?php echo $store['store_id']; ?>"><?php echo addslashes($store['name']); ?></option>';
-	<?php } ?>   
-	html += '    </select></td>';
-	html += '    <td class="left"><input type="text" name="layout_route[' + route_row + '][route]" value="" /></td>';
-	html += '    <td class="left"><a onclick="$(\'#route-row' + route_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
-	html += '  </tr>';
-	html += '</tbody>';
-	
-	$('#route > tfoot').before(html);
-	
-	route_row++;
+    html  = '<tbody id="route-row' + route_row + '">';
+    html += '  <tr>';
+    html += '    <td class="left"><select name="layout_route[' + route_row + '][store_id]">';
+    html += '    <option value="0"><?php echo $text_default; ?></option>';
+    <?php foreach ($stores as $store) { ?>
+    html += '<option value="<?php echo $store['store_id']; ?>"><?php echo addslashes($store['name']); ?></option>';
+    <?php } ?>   
+    html += '    </select></td>';
+    html += '    <td class="left"><input type="text" name="layout_route[' + route_row + '][route]" value="" /></td>';
+    html += '    <td class="left"><a onclick="$(\'#route-row' + route_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
+    html += '  </tr>';
+    html += '</tbody>';
+    
+    $('#route > tfoot').before(html);
+    
+    route_row++;
 }
 //--></script> 
 <?php echo $footer; ?>

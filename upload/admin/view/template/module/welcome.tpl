@@ -108,12 +108,12 @@
 <?php foreach ($modules as $module) { ?>
 <?php foreach ($languages as $language) { ?>
 CKEDITOR.replace('description-<?php echo $module_row; ?>-<?php echo $language['language_id']; ?>', {
-	filebrowserBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
-	filebrowserImageBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
-	filebrowserFlashBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
-	filebrowserUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
-	filebrowserImageUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
-	filebrowserFlashUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>'
+    filebrowserBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+    filebrowserImageBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+    filebrowserFlashBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+    filebrowserUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+    filebrowserImageUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+    filebrowserFlashUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>'
 });
 <?php } ?>
 <?php $module_row++; ?>
@@ -122,79 +122,79 @@ CKEDITOR.replace('description-<?php echo $module_row; ?>-<?php echo $language['l
 <script type="text/javascript"><!--
 var module_row = <?php echo $module_row; ?>;
 
-function addModule() {	
-	html  = '<div id="tab-module-' + module_row + '" class="vtabs-content">';
-	html += '  <div id="language-' + module_row + '" class="htabs">';
+function addModule() {    
+    html  = '<div id="tab-module-' + module_row + '" class="vtabs-content">';
+    html += '  <div id="language-' + module_row + '" class="htabs">';
     <?php foreach ($languages as $language) { ?>
     html += '    <a href="#tab-language-'+ module_row + '-<?php echo $language['language_id']; ?>"><img src="view/image/flags/<?php echo $language['image']; ?>" title="<?php echo $language['name']; ?>" /> <?php echo $language['name']; ?></a>';
     <?php } ?>
-	html += '  </div>';
+    html += '  </div>';
 
-	<?php foreach ($languages as $language) { ?>
-	html += '    <div id="tab-language-'+ module_row + '-<?php echo $language['language_id']; ?>">';
-	html += '      <table class="form">';
-	html += '        <tr>';
-	html += '          <td><?php echo $entry_description; ?></td>';
-	html += '          <td><textarea name="welcome_module[' + module_row + '][description][<?php echo $language['language_id']; ?>]" id="description-' + module_row + '-<?php echo $language['language_id']; ?>"></textarea></td>';
-	html += '        </tr>';
-	html += '      </table>';
-	html += '    </div>';
-	<?php } ?>
+    <?php foreach ($languages as $language) { ?>
+    html += '    <div id="tab-language-'+ module_row + '-<?php echo $language['language_id']; ?>">';
+    html += '      <table class="form">';
+    html += '        <tr>';
+    html += '          <td><?php echo $entry_description; ?></td>';
+    html += '          <td><textarea name="welcome_module[' + module_row + '][description][<?php echo $language['language_id']; ?>]" id="description-' + module_row + '-<?php echo $language['language_id']; ?>"></textarea></td>';
+    html += '        </tr>';
+    html += '      </table>';
+    html += '    </div>';
+    <?php } ?>
 
-	html += '  <table class="form">';
-	html += '    <tr>';
-	html += '      <td><?php echo $entry_layout; ?></td>';
-	html += '      <td><select name="welcome_module[' + module_row + '][layout_id]">';
-	<?php foreach ($layouts as $layout) { ?>
-	html += '           <option value="<?php echo $layout['layout_id']; ?>"><?php echo addslashes($layout['name']); ?></option>';
-	<?php } ?>
-	html += '      </select></td>';
-	html += '    </tr>';
-	html += '    <tr>';
-	html += '      <td><?php echo $entry_position; ?></td>';
-	html += '      <td><select name="welcome_module[' + module_row + '][position]">';
-	html += '        <option value="content_top"><?php echo $text_content_top; ?></option>';
-	html += '        <option value="content_bottom"><?php echo $text_content_bottom; ?></option>';
-	html += '        <option value="column_left"><?php echo $text_column_left; ?></option>';
-	html += '        <option value="column_right"><?php echo $text_column_right; ?></option>';
-	html += '      </select></td>';
-	html += '    </tr>';
-	html += '    <tr>';
-	html += '      <td><?php echo $entry_status; ?></td>';
-	html += '      <td><select name="welcome_module[' + module_row + '][status]">';
-	html += '        <option value="1"><?php echo $text_enabled; ?></option>';
-	html += '        <option value="0"><?php echo $text_disabled; ?></option>';
-	html += '      </select></td>';
-	html += '    </tr>';
-	html += '    <tr>';
-	html += '      <td><?php echo $entry_sort_order; ?></td>';
-	html += '      <td><input type="text" name="welcome_module[' + module_row + '][sort_order]" value="" size="3" /></td>';
-	html += '    </tr>';
-	html += '  </table>'; 
-	html += '</div>';
-	
-	$('#form').append(html);
-	
-	<?php foreach ($languages as $language) { ?>
-	CKEDITOR.replace('description-' + module_row + '-<?php echo $language['language_id']; ?>', {
-		filebrowserBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
-		filebrowserImageBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
-		filebrowserFlashBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
-		filebrowserUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
-		filebrowserImageUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
-		filebrowserFlashUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>'
-	});  
-	<?php } ?>
-	
-	$('#language-' + module_row + ' a').tabs();
-	
-	$('#module-add').before('<a href="#tab-module-' + module_row + '" id="module-' + module_row + '"><?php echo $tab_module; ?> ' + module_row + '&nbsp;<img src="view/image/delete.png" alt="" onclick="$(\'.vtabs a:first\').trigger(\'click\'); $(\'#module-' + module_row + '\').remove(); $(\'#tab-module-' + module_row + '\').remove(); return false;" /></a>');
-	
-	$('.vtabs a').tabs();
-	
-	$('#module-' + module_row).trigger('click');
-	
-	module_row++;
+    html += '  <table class="form">';
+    html += '    <tr>';
+    html += '      <td><?php echo $entry_layout; ?></td>';
+    html += '      <td><select name="welcome_module[' + module_row + '][layout_id]">';
+    <?php foreach ($layouts as $layout) { ?>
+    html += '           <option value="<?php echo $layout['layout_id']; ?>"><?php echo addslashes($layout['name']); ?></option>';
+    <?php } ?>
+    html += '      </select></td>';
+    html += '    </tr>';
+    html += '    <tr>';
+    html += '      <td><?php echo $entry_position; ?></td>';
+    html += '      <td><select name="welcome_module[' + module_row + '][position]">';
+    html += '        <option value="content_top"><?php echo $text_content_top; ?></option>';
+    html += '        <option value="content_bottom"><?php echo $text_content_bottom; ?></option>';
+    html += '        <option value="column_left"><?php echo $text_column_left; ?></option>';
+    html += '        <option value="column_right"><?php echo $text_column_right; ?></option>';
+    html += '      </select></td>';
+    html += '    </tr>';
+    html += '    <tr>';
+    html += '      <td><?php echo $entry_status; ?></td>';
+    html += '      <td><select name="welcome_module[' + module_row + '][status]">';
+    html += '        <option value="1"><?php echo $text_enabled; ?></option>';
+    html += '        <option value="0"><?php echo $text_disabled; ?></option>';
+    html += '      </select></td>';
+    html += '    </tr>';
+    html += '    <tr>';
+    html += '      <td><?php echo $entry_sort_order; ?></td>';
+    html += '      <td><input type="text" name="welcome_module[' + module_row + '][sort_order]" value="" size="3" /></td>';
+    html += '    </tr>';
+    html += '  </table>'; 
+    html += '</div>';
+    
+    $('#form').append(html);
+    
+    <?php foreach ($languages as $language) { ?>
+    CKEDITOR.replace('description-' + module_row + '-<?php echo $language['language_id']; ?>', {
+        filebrowserBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+        filebrowserImageBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+        filebrowserFlashBrowseUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+        filebrowserUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+        filebrowserImageUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>',
+        filebrowserFlashUploadUrl: 'index.php?route=common/filemanager&token=<?php echo $token; ?>'
+    });  
+    <?php } ?>
+    
+    $('#language-' + module_row + ' a').tabs();
+    
+    $('#module-add').before('<a href="#tab-module-' + module_row + '" id="module-' + module_row + '"><?php echo $tab_module; ?> ' + module_row + '&nbsp;<img src="view/image/delete.png" alt="" onclick="$(\'.vtabs a:first\').trigger(\'click\'); $(\'#module-' + module_row + '\').remove(); $(\'#tab-module-' + module_row + '\').remove(); return false;" /></a>');
+    
+    $('.vtabs a').tabs();
+    
+    $('#module-' + module_row).trigger('click');
+    
+    module_row++;
 }
 //--></script> 
 <script type="text/javascript"><!--

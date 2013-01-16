@@ -85,23 +85,23 @@ $('#zone<?php echo $zone_to_geo_zone_row; ?>').load('index.php?route=localisatio
 var zone_to_geo_zone_row = <?php echo $zone_to_geo_zone_row; ?>;
 
 function addGeoZone() {
-	html  = '<tbody id="zone-to-geo-zone-row' + zone_to_geo_zone_row + '">';
-	html += '<tr>';
-	html += '<td class="left"><select name="zone_to_geo_zone[' + zone_to_geo_zone_row + '][country_id]" id="country' + zone_to_geo_zone_row + '" onchange="$(\'#zone' + zone_to_geo_zone_row + '\').load(\'index.php?route=localisation/geo_zone/zone&token=<?php echo $token; ?>&country_id=\' + this.value + \'&zone_id=0\');">';
-	<?php foreach ($countries as $country) { ?>
-	html += '<option value="<?php echo $country['country_id']; ?>"><?php echo addslashes($country['name']); ?></option>';
-	<?php } ?>   
-	html += '</select></td>';
-	html += '<td class="left"><select name="zone_to_geo_zone[' + zone_to_geo_zone_row + '][zone_id]" id="zone' + zone_to_geo_zone_row + '"></select></td>';
-	html += '<td class="left"><a onclick="$(\'#zone-to-geo-zone-row' + zone_to_geo_zone_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
-	html += '</tr>';
-	html += '</tbody>';
-	
-	$('#zone-to-geo-zone > tfoot').before(html);
-		
-	$('#zone' + zone_to_geo_zone_row).load('index.php?route=localisation/geo_zone/zone&token=<?php echo $token; ?>&country_id=' + $('#country' + zone_to_geo_zone_row).attr('value') + '&zone_id=0');
-	
-	zone_to_geo_zone_row++;
+    html  = '<tbody id="zone-to-geo-zone-row' + zone_to_geo_zone_row + '">';
+    html += '<tr>';
+    html += '<td class="left"><select name="zone_to_geo_zone[' + zone_to_geo_zone_row + '][country_id]" id="country' + zone_to_geo_zone_row + '" onchange="$(\'#zone' + zone_to_geo_zone_row + '\').load(\'index.php?route=localisation/geo_zone/zone&token=<?php echo $token; ?>&country_id=\' + this.value + \'&zone_id=0\');">';
+    <?php foreach ($countries as $country) { ?>
+    html += '<option value="<?php echo $country['country_id']; ?>"><?php echo addslashes($country['name']); ?></option>';
+    <?php } ?>   
+    html += '</select></td>';
+    html += '<td class="left"><select name="zone_to_geo_zone[' + zone_to_geo_zone_row + '][zone_id]" id="zone' + zone_to_geo_zone_row + '"></select></td>';
+    html += '<td class="left"><a onclick="$(\'#zone-to-geo-zone-row' + zone_to_geo_zone_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
+    html += '</tr>';
+    html += '</tbody>';
+    
+    $('#zone-to-geo-zone > tfoot').before(html);
+        
+    $('#zone' + zone_to_geo_zone_row).load('index.php?route=localisation/geo_zone/zone&token=<?php echo $token; ?>&country_id=' + $('#country' + zone_to_geo_zone_row).attr('value') + '&zone_id=0');
+    
+    zone_to_geo_zone_row++;
 }
 //--></script> 
 <?php echo $footer; ?>

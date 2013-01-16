@@ -160,106 +160,106 @@
 </div>
 <script type="text/javascript"><!--
 $('input[name=\'category[]\']').bind('change', function() {
-	var filter_category_id = this;
-	
-	$.ajax({
-		url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_category_id=' +  filter_category_id.value + '&limit=10000',
-		dataType: 'json',
-		success: function(json) {
-			for (i = 0; i < json.length; i++) {
-				if ($(filter_category_id).attr('checked') == 'checked') {
-					$('#coupon-product' + json[i]['product_id']).remove();
-					
-					$('#coupon-product').append('<div id="coupon-product' + json[i]['product_id'] + '">' + json[i]['name'] + '<img src="view/image/delete.png" alt="" /><input type="hidden" name="coupon_product[]" value="' + json[i]['product_id'] + '" /></div>');
-				} else {
-					$('#coupon-product' + json[i]['product_id']).remove();
-				}			
-			}
-			
-			$('#coupon-product div:odd').attr('class', 'odd');
-			$('#coupon-product div:even').attr('class', 'even');			
-		}
-	});
+    var filter_category_id = this;
+    
+    $.ajax({
+        url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_category_id=' +  filter_category_id.value + '&limit=10000',
+        dataType: 'json',
+        success: function(json) {
+            for (i = 0; i < json.length; i++) {
+                if ($(filter_category_id).attr('checked') == 'checked') {
+                    $('#coupon-product' + json[i]['product_id']).remove();
+                    
+                    $('#coupon-product').append('<div id="coupon-product' + json[i]['product_id'] + '">' + json[i]['name'] + '<img src="view/image/delete.png" alt="" /><input type="hidden" name="coupon_product[]" value="' + json[i]['product_id'] + '" /></div>');
+                } else {
+                    $('#coupon-product' + json[i]['product_id']).remove();
+                }            
+            }
+            
+            $('#coupon-product div:odd').attr('class', 'odd');
+            $('#coupon-product div:even').attr('class', 'even');            
+        }
+    });
 });
 
 $('input[name=\'product\']').autocomplete({
-	delay: 500,
-	source: function(request, response) {
-		$.ajax({
-			url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-			dataType: 'json',
-			success: function(json) {		
-				response($.map(json, function(item) {
-					return {
-						label: item.name,
-						value: item.product_id
-					}
-				}));
-			}
-		});
-	}, 
-	select: function(event, ui) {
-		$('#coupon-product' + ui.item.value).remove();
-		
-		$('#coupon-product').append('<div id="coupon-product' + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" alt="" /><input type="hidden" name="coupon_product[]" value="' + ui.item.value + '" /></div>');
+    delay: 500,
+    source: function(request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+            dataType: 'json',
+            success: function(json) {        
+                response($.map(json, function(item) {
+                    return {
+                        label: item.name,
+                        value: item.product_id
+                    }
+                }));
+            }
+        });
+    }, 
+    select: function(event, ui) {
+        $('#coupon-product' + ui.item.value).remove();
+        
+        $('#coupon-product').append('<div id="coupon-product' + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" alt="" /><input type="hidden" name="coupon_product[]" value="' + ui.item.value + '" /></div>');
 
-		$('#coupon-product div:odd').attr('class', 'odd');
-		$('#coupon-product div:even').attr('class', 'even');
-		
-		$('input[name=\'product\']').val('');
-		
-		return false;
-	},
-	focus: function(event, ui) {
-      	return false;
-   	}
+        $('#coupon-product div:odd').attr('class', 'odd');
+        $('#coupon-product div:even').attr('class', 'even');
+        
+        $('input[name=\'product\']').val('');
+        
+        return false;
+    },
+    focus: function(event, ui) {
+          return false;
+       }
 });
 
 $('#coupon-product div img').live('click', function() {
-	$(this).parent().remove();
-	
-	$('#coupon-product div:odd').attr('class', 'odd');
-	$('#coupon-product div:even').attr('class', 'even');	
+    $(this).parent().remove();
+    
+    $('#coupon-product div:odd').attr('class', 'odd');
+    $('#coupon-product div:even').attr('class', 'even');    
 });
 
 
 $('input[name=\'category\']').autocomplete({
-	delay: 500,
-	source: function(request, response) {
-		$.ajax({
-			url: 'index.php?route=catalog/category/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-			dataType: 'json',
-			success: function(json) {		
-				response($.map(json, function(item) {
-					return {
-						label: item.name,
-						value: item.category_id
-					}
-				}));
-			}
-		});
-		
-	}, 
-	select: function(event, ui) {
-		$('#coupon-category' + ui.item.value).remove();
-		
-		$('#coupon-category').append('<div id="product-category' + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" alt="" /><input type="hidden" name="coupon_category[]" value="' + ui.item.value + '" /></div>');
+    delay: 500,
+    source: function(request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/category/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+            dataType: 'json',
+            success: function(json) {        
+                response($.map(json, function(item) {
+                    return {
+                        label: item.name,
+                        value: item.category_id
+                    }
+                }));
+            }
+        });
+        
+    }, 
+    select: function(event, ui) {
+        $('#coupon-category' + ui.item.value).remove();
+        
+        $('#coupon-category').append('<div id="product-category' + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" alt="" /><input type="hidden" name="coupon_category[]" value="' + ui.item.value + '" /></div>');
 
-		$('#coupon-category div:odd').attr('class', 'odd');
-		$('#coupon-category div:even').attr('class', 'even');
-				
-		return false;
-	},
-	focus: function(event, ui) {
+        $('#coupon-category div:odd').attr('class', 'odd');
+        $('#coupon-category div:even').attr('class', 'even');
+                
+        return false;
+    },
+    focus: function(event, ui) {
       return false;
    }
 });
 
 $('#coupon-category div img').live('click', function() {
-	$(this).parent().remove();
-	
-	$('#coupon-category div:odd').attr('class', 'odd');
-	$('#coupon-category div:even').attr('class', 'even');	
+    $(this).parent().remove();
+    
+    $('#coupon-category div:odd').attr('class', 'odd');
+    $('#coupon-category div:even').attr('class', 'even');    
 });
 //--></script> 
 <script type="text/javascript"><!--
@@ -269,10 +269,10 @@ $('#date-end').datepicker({dateFormat: 'yy-mm-dd'});
 <?php if ($coupon_id) { ?>
 <script type="text/javascript"><!--
 $('#history .pagination a').live('click', function() {
-	$('#history').load(this.href);
-	
-	return false;
-});			
+    $('#history').load(this.href);
+    
+    return false;
+});            
 
 $('#history').load('index.php?route=sale/coupon/history&token=<?php echo $token; ?>&coupon_id=<?php echo $coupon_id; ?>');
 //--></script>

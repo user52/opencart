@@ -5,9 +5,9 @@ Some quick notes to properly use the Unit PNG Fix:
 
 - unitpngfix.js is written for IE6 only. You should use the conditional statement in your html:
 
-	<!--[if lt IE 7]>
-        		<script type="text/javascript" src="unitpngfix.js"></script>
-	<![endif]--> 
+    <!--[if lt IE 7]>
+                <script type="text/javascript" src="unitpngfix.js"></script>
+    <![endif]--> 
 
 to make sure that it only loads in IE6. Unit PNG Fix will not work in Firefox, Opera, Safari, IE7, etc.
 

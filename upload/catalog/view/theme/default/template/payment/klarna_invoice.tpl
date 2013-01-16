@@ -148,7 +148,7 @@ $(document).ready(function(){
             url: 'index.php?route=payment/klarna_invoice/send',
             type: 'post',
             data: $('#klarna-payment-form').serialize(),
-            dataType: 'json',		
+            dataType: 'json',        
 
             beforeSend: function() {
                 $('#button-confirm').attr('disabled', true);
@@ -158,9 +158,9 @@ $(document).ready(function(){
             complete: function() {
                 $('#button-confirm').attr('disabled', false);
                 $('.attention').remove();
-            },		
+            },        
 
-            success: function(json) {			
+            success: function(json) {            
                 if (json['error']) {
                     $('#payment').before('<div class="warning">' + json['error'] + '</div>');
                 }

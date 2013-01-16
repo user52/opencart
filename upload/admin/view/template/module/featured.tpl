@@ -115,86 +115,86 @@
 </div>
 <script type="text/javascript"><!--
 $('input[name=\'product\']').autocomplete({
-	delay: 500,
-	source: function(request, response) {
-		$.ajax({
-			url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
-			dataType: 'json',
-			success: function(json) {		
-				response($.map(json, function(item) {
-					return {
-						label: item.name,
-						value: item.product_id
-					}
-				}));
-			}
-		});
-	}, 
-	select: function(event, ui) {
-		$('#featured-product' + ui.item.value).remove();
-		
-		$('#featured-product').append('<div id="featured-product' + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" alt="" /><input type="hidden" value="' + ui.item.value + '" /></div>');
+    delay: 500,
+    source: function(request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/product/autocomplete&token=<?php echo $token; ?>&filter_name=' +  encodeURIComponent(request.term),
+            dataType: 'json',
+            success: function(json) {        
+                response($.map(json, function(item) {
+                    return {
+                        label: item.name,
+                        value: item.product_id
+                    }
+                }));
+            }
+        });
+    }, 
+    select: function(event, ui) {
+        $('#featured-product' + ui.item.value).remove();
+        
+        $('#featured-product').append('<div id="featured-product' + ui.item.value + '">' + ui.item.label + '<img src="view/image/delete.png" alt="" /><input type="hidden" value="' + ui.item.value + '" /></div>');
 
-		$('#featured-product div:odd').attr('class', 'odd');
-		$('#featured-product div:even').attr('class', 'even');
-		
-		data = $.map($('#featured-product input'), function(element){
-			return $(element).attr('value');
-		});
-						
-		$('input[name=\'featured_product\']').attr('value', data.join());
-					
-		return false;
-	},
-	focus: function(event, ui) {
-      	return false;
-   	}
+        $('#featured-product div:odd').attr('class', 'odd');
+        $('#featured-product div:even').attr('class', 'even');
+        
+        data = $.map($('#featured-product input'), function(element){
+            return $(element).attr('value');
+        });
+                        
+        $('input[name=\'featured_product\']').attr('value', data.join());
+                    
+        return false;
+    },
+    focus: function(event, ui) {
+          return false;
+       }
 });
 
 $('#featured-product div img').live('click', function() {
-	$(this).parent().remove();
-	
-	$('#featured-product div:odd').attr('class', 'odd');
-	$('#featured-product div:even').attr('class', 'even');
+    $(this).parent().remove();
+    
+    $('#featured-product div:odd').attr('class', 'odd');
+    $('#featured-product div:even').attr('class', 'even');
 
-	data = $.map($('#featured-product input'), function(element){
-		return $(element).attr('value');
-	});
-					
-	$('input[name=\'featured_product\']').attr('value', data.join());	
+    data = $.map($('#featured-product input'), function(element){
+        return $(element).attr('value');
+    });
+                    
+    $('input[name=\'featured_product\']').attr('value', data.join());    
 });
 //--></script> 
 <script type="text/javascript"><!--
 var module_row = <?php echo $module_row; ?>;
 
-function addModule() {	
-	html  = '<tbody id="module-row' + module_row + '">';
-	html += '  <tr>';
-	html += '    <td class="left"><input type="text" name="featured_module[' + module_row + '][limit]" value="5" size="1" /></td>';
-	html += '    <td class="left"><input type="text" name="featured_module[' + module_row + '][image_width]" value="80" size="3" /> <input type="text" name="featured_module[' + module_row + '][image_height]" value="80" size="3" /></td>';	
-	html += '    <td class="left"><select name="featured_module[' + module_row + '][layout_id]">';
-	<?php foreach ($layouts as $layout) { ?>
-	html += '      <option value="<?php echo $layout['layout_id']; ?>"><?php echo addslashes($layout['name']); ?></option>';
-	<?php } ?>
-	html += '    </select></td>';
-	html += '    <td class="left"><select name="featured_module[' + module_row + '][position]">';
-	html += '      <option value="content_top"><?php echo $text_content_top; ?></option>';
-	html += '      <option value="content_bottom"><?php echo $text_content_bottom; ?></option>';
-	html += '      <option value="column_left"><?php echo $text_column_left; ?></option>';
-	html += '      <option value="column_right"><?php echo $text_column_right; ?></option>';
-	html += '    </select></td>';
-	html += '    <td class="left"><select name="featured_module[' + module_row + '][status]">';
+function addModule() {    
+    html  = '<tbody id="module-row' + module_row + '">';
+    html += '  <tr>';
+    html += '    <td class="left"><input type="text" name="featured_module[' + module_row + '][limit]" value="5" size="1" /></td>';
+    html += '    <td class="left"><input type="text" name="featured_module[' + module_row + '][image_width]" value="80" size="3" /> <input type="text" name="featured_module[' + module_row + '][image_height]" value="80" size="3" /></td>';    
+    html += '    <td class="left"><select name="featured_module[' + module_row + '][layout_id]">';
+    <?php foreach ($layouts as $layout) { ?>
+    html += '      <option value="<?php echo $layout['layout_id']; ?>"><?php echo addslashes($layout['name']); ?></option>';
+    <?php } ?>
+    html += '    </select></td>';
+    html += '    <td class="left"><select name="featured_module[' + module_row + '][position]">';
+    html += '      <option value="content_top"><?php echo $text_content_top; ?></option>';
+    html += '      <option value="content_bottom"><?php echo $text_content_bottom; ?></option>';
+    html += '      <option value="column_left"><?php echo $text_column_left; ?></option>';
+    html += '      <option value="column_right"><?php echo $text_column_right; ?></option>';
+    html += '    </select></td>';
+    html += '    <td class="left"><select name="featured_module[' + module_row + '][status]">';
     html += '      <option value="1" selected="selected"><?php echo $text_enabled; ?></option>';
     html += '      <option value="0"><?php echo $text_disabled; ?></option>';
     html += '    </select></td>';
-	html += '    <td class="right"><input type="text" name="featured_module[' + module_row + '][sort_order]" value="" size="3" /></td>';
-	html += '    <td class="left"><a onclick="$(\'#module-row' + module_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
-	html += '  </tr>';
-	html += '</tbody>';
-	
-	$('#module tfoot').before(html);
-	
-	module_row++;
+    html += '    <td class="right"><input type="text" name="featured_module[' + module_row + '][sort_order]" value="" size="3" /></td>';
+    html += '    <td class="left"><a onclick="$(\'#module-row' + module_row + '\').remove();" class="button"><?php echo $button_remove; ?></a></td>';
+    html += '  </tr>';
+    html += '</tbody>';
+    
+    $('#module tfoot').before(html);
+    
+    module_row++;
 }
 //--></script> 
 <?php echo $footer; ?>

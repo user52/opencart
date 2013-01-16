@@ -662,7 +662,7 @@
             <td><input type="text" name="ups_length" value="<?php echo $ups_length; ?>" size="4" />
               <input type="text" name="ups_width" value="<?php echo $ups_width; ?>" size="4" />
               <input type="text" name="ups_height" value="<?php echo $ups_height; ?>" size="4" />
-			  <?php if ($error_dimension) { ?>
+              <?php if ($error_dimension) { ?>
               <span class="error"><?php echo $error_dimension; ?></span>
               <?php } ?></td>
           </tr>
@@ -708,7 +708,7 @@
             <td><?php echo $entry_sort_order; ?></td>
             <td><input type="text" name="ups_sort_order" value="<?php echo $ups_sort_order; ?>" size="1" /></td>
           </tr>
-		  <tr>
+          <tr>
             <td><?php echo $entry_debug; ?></td>
             <td><select name="ups_debug">
               <?php if ($ups_debug) { ?>
@@ -727,9 +727,9 @@
 </div>
 <script type="text/javascript"><!--
 $('select[name=\'ups_origin\']').bind('change', function() {
-	$('#service > div').hide();	
-										 
-	$('#' + this.value).show();	
+    $('#service > div').hide();    
+                                         
+    $('#' + this.value).show();    
 });
 
 $('select[name=\'ups_origin\']').trigger('change');
