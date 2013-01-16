@@ -36,3 +36,6 @@
 # /upload/backup.install/*
 # /upload/install/*
 
+
+# Ignore vim swap files
+*.swp
